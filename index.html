@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IEDC // Quantum Gateway</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:400,700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> <script src="https://cdn.tailwindcss.com"></script> <style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
         /* Dark Theme Variables (Default) */
-        :root {
+:root {
             --bg-main: #080808;
             --bg-secondary: #000000;
             --text-primary: #e6e6e6;
@@ -31,15 +34,6 @@
             --card-border: rgba(0, 224, 255, 0.2);
             --card-hover-border: var(--accent-gradient-start);
             --logo-glow: rgba(0, 224, 255, 0.6);
-
-            --darker-background: #050505; /* New variable for Savishkaara background */
-            --dark-background: #0a0a0a; /* New variable for Savishkaara background */
-            --transparent-white-subtle: rgba(255, 255, 255, 0.05); /* New variable for Savishkaara grid */
-            --primary-glow: #00e0ff; /* Used in Savishkaara title */
-            --accent-color-1: #00e5ff; /* Gradient start */
-            --accent-color-2: #ffea00; /* Gradient end */
-            --light-text-color: #b0b0b0; /* Used in Savishkaara paragraphs */
-            --about-card-bg: rgba(0, 224, 255, 0.1); /* Used for sub-logo hover */
         }
 
         /* Light Theme Variables */
@@ -67,15 +61,6 @@
             --card-border: rgba(33, 150, 243, 0.2);
             --card-hover-border: var(--accent-gradient-start);
             --logo-glow: rgba(33, 150, 243, 0.4);
-
-            --darker-background: #c5c5c5; /* Adjusted for light theme */
-            --dark-background: #d0d0d0; /* Adjusted for light theme */
-            --transparent-white-subtle: rgba(0, 0, 0, 0.05); /* Adjusted for light theme */
-            --primary-glow: #1976D2; /* Adjusted for light theme */
-            --accent-color-1: #1976D2; /* Gradient start */
-            --accent-color-2: #FFC107; /* Gradient end */
-            --light-text-color: #444444; /* Adjusted for light theme */
-            --about-card-bg: rgba(33, 150, 243, 0.1); /* Adjusted for sub-logo hover */
         }
 
         /* Base Styles */
@@ -85,15 +70,14 @@
             box-sizing: border-box;
         }
 
-        html, body { /* Combined html and body for main styling */
+        html, body {
             height: 100%;
             background: var(--bg-main);
-            font-family: 'Roboto Mono', monospace; /* Default font */
+            font-family: 'Roboto Mono', monospace;
             color: var(--text-primary);
             overflow-x: hidden;
-            transition: background 0.5s ease, color 0.5s ease; /* Smooth theme transition */
+            transition: background 0.5s ease, color 0.5s ease;
         }
-        /* Ensure body for carousel section uses Inter if not overridden by Tailwind */
         #highlights-carousel-section-v2, #highlights-carousel-section-v2 * {
              font-family: 'Inter', sans-serif;
         }
@@ -104,7 +88,7 @@
             background: linear-gradient(90deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: none;
+            /* Removed text-shadow */
         }
 
         /* --- Logo --- */
@@ -200,7 +184,7 @@
                 linear-gradient(to right, var(--transparent-accent-dark) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--transparent-accent-dark) 1px, transparent 1px);
             background-size: 40px 40px;
-            animation: gridPulse 12s infinite alternate;
+            /* Removed animation: gridPulse */
             opacity: 0.4;
             z-index: -1;
         }
@@ -235,7 +219,6 @@
         .nav-menu.open ul li:nth-child(5) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.05s; }
         .nav-menu.open ul li:nth-child(6) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.2s; }
         .nav-menu.open ul li:nth-child(7) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.35s; }
-        /* Removed 8th item as 3D demo link is gone */
 
 
         .nav-menu ul li a {
@@ -263,9 +246,9 @@
         }
 
         .nav-menu ul li a:hover {
-            color: yellow;
-            transform: scale(1.1);
-            letter-spacing: 5px;
+            color: var(--accent-primary); /* Changed to accent-primary */
+            transform: scale(1.05); /* Slightly reduced scale */
+            letter-spacing: 3px; /* Slightly reduced letter-spacing */
         }
 
         .nav-menu ul li a:hover::after {
@@ -276,7 +259,7 @@
         .theme-toggle {
             position: fixed;
             top: 25px;
-            right: 80px; /* Adjusted position to be left of hamburger */
+            right: 80px;
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -296,14 +279,14 @@
         }
 
         .theme-toggle::before {
-            content: '🌙'; /* Moon icon for dark theme */
+            content: '🌙';
             font-size: 20px;
             color: var(--text-primary);
             transition: color 0.5s ease;
         }
 
         body.light-theme .theme-toggle::before {
-            content: '☀️'; /* Sun icon for light theme */
+            content: '☀️';
             color: var(--text-primary);
         }
 
@@ -312,7 +295,7 @@
         #preloader {
             position: fixed;
             inset: 0;
-            background-color: var(--bg-secondary); /* Uses bg-secondary for smoother transition */
+            background-color: var(--bg-secondary);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -326,14 +309,14 @@
         #preloader.hidden {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none; /* Disable interaction after hidden */
+            pointer-events: none;
         }
 
         #preloader img {
             width: 100px;
             height: auto;
             margin-bottom: 25px;
-            animation: 1.5s infinite ease-in-out;
+            /* Removed animation */
         }
 
         .loader-container {
@@ -345,7 +328,7 @@
         .loader {
             width: 60px;
             height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.1); /* Keep this white for contrast with spinner */
+            border: 5px solid rgba(255, 255, 255, 0.1);
             border-top: 5px solid var(--accent-gradient-start);
             border-right: 5px solid var(--accent-gradient-end);
             border-radius: 50%;
@@ -354,11 +337,11 @@
         }
 
         .loading-text {
-            color: var(--accent-primary); /* Use primary accent for loading text */
+            color: var(--accent-primary);
             font-family: 'Orbitron', sans-serif;
             font-size: 18px;
             letter-spacing: 1.5px;
-            animation: glitchText 1.2s infinite alternate;
+            /* Removed animation: glitchText */
         }
 
         /* --- Main Content / Hero Section --- */
@@ -387,7 +370,7 @@
 
         /* Background Grid Effect */
         .main-content::before,
-        .generic-section::before { /* Apply grid to generic sections too */
+        .generic-section::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -397,7 +380,7 @@
             background-size: 30px 30px;
             pointer-events: none;
             z-index: 0;
-            animation: gridPulse 10s infinite alternate;
+            /* Removed animation: gridPulse */
         }
 
 
@@ -446,7 +429,7 @@
         }
 
         .hero-left .amrita-text {
-            font-family: 'Orbitron', sans-serif; /* Changed font to Orbitron */
+            font-family: 'Orbitron', sans-serif;
             font-size: 28px;
             line-height: 1.3;
             margin-bottom: 20px;
@@ -468,7 +451,7 @@
             padding: 10px 22px;
             font-size: 15px;
             font-weight: bold;
-            color: #ffffff; /* Keep white for button text */
+            color: #ffffff;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.4s ease-in-out;
@@ -487,13 +470,13 @@
             inset: -2px;
             background: linear-gradient(45deg, var(--accent-primary), transparent, var(--accent-secondary));
             z-index: -1;
-            filter: blur(8px);
+            filter: blur(0px); /* Reduced blur for subtle effect */
             opacity: 0;
             transition: opacity 0.4s ease-in-out;
         }
 
         .cta-button:hover::before {
-            opacity: 1;
+            opacity: 0.5; /* Reduced opacity for subtle effect */
         }
 
         .hero-right {
@@ -514,7 +497,7 @@
             opacity: 0;
             transform: translateX(70px);
             transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-            animation: floating 4s ease-in-out infinite;
+            /* Removed animation: floating */
         }
 
         .main-content.visible .image-container {
@@ -534,11 +517,11 @@
         .generic-section {
             padding: 80px 30px;
             text-align: center;
-            position: relative; /* For pseudo-element grid */
-            background: var(--bg-secondary); /* Slightly different background */
-            opacity: 0; /* For intersection observer */
-            transform: translateY(30px); /* For intersection observer */
-            transition: opacity 1s ease-out, transform 1s ease-out; /* For intersection observer */
+            position: relative;
+            background: var(--bg-secondary);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
             visibility: hidden;
         }
         .generic-section.visible {
@@ -606,34 +589,34 @@
         }
 
         .carousel-item.prev {
-            transform: translate(-50%, -50%) translateX(-50%) scale(0.8) rotateY(45deg);
+            transform: translate(-50%, -50%) translateX(-50%) scale(0.8) rotateY(0deg); /* Removed rotation */
             opacity: 0.7;
             z-index: 20;
         }
         .carousel-item.prev-2 {
-            transform: translate(-50%, -50%) translateX(-80%) scale(0.6) rotateY(45deg);
+            transform: translate(-50%, -50%) translateX(-80%) scale(0.6) rotateY(0deg); /* Removed rotation */
             opacity: 0.4;
             z-index: 10;
         }
 
         .carousel-item.next {
-            transform: translate(-50%, -50%) translateX(50%) scale(0.8) rotateY(-45deg);
+            transform: translate(-50%, -50%) translateX(50%) scale(0.8) rotateY(0deg); /* Removed rotation */
             opacity: 0.7;
             z-index: 20;
         }
         .carousel-item.next-2 {
-            transform: translate(-50%, -50%) translateX(80%) scale(0.6) rotateY(-45deg);
+            transform: translate(-50%, -50%) translateX(80%) scale(0.6) rotateY(0deg); /* Removed rotation */
             opacity: 0.4;
             z-index: 10;
         }
 
         .carousel-item.hide-left {
-            transform: translate(-50%, -50%) translateX(-100%) scale(0.5) rotateY(45deg);
+            transform: translate(-50%, -50%) translateX(-100%) scale(0.5) rotateY(0deg); /* Removed rotation */
             opacity: 0;
             z-index: 0;
         }
         .carousel-item.hide-right {
-            transform: translate(-50%, -50%) translateX(100%) scale(0.5) rotateY(-45deg);
+            transform: translate(-50%, -50%) translateX(100%) scale(0.5) rotateY(0deg); /* Removed rotation */
             opacity: 0;
             z-index: 0;
         }
@@ -681,8 +664,6 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* Removed 3D Animation Section CSS */
-
         /* --- Animations --- */
         @keyframes spin {
             to { transform: rotate(360deg); }
@@ -693,45 +674,8 @@
             to { opacity: 1; }
         }
 
-        @keyframes pulseGlow {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-                filter: drop-shadow(0 0 12px var(--accent-primary)); 
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.95;
-                filter: drop-shadow(0 0 20px var(--accent-primary)) drop-shadow(0 0 5px var(--accent-secondary));
-            }
-        }
-
-        @keyframes glitchText {
-            0% {
-                text-shadow: 0 0 8px var(--accent-primary);
-                transform: translate(0);
-            }
-            20% {
-                text-shadow: 0 0 10px var(--accent-primary), 1px -1px 0px rgba(255,0,0,0.4);
-                transform: translate(-0.5px, 0.5px);
-            }
-            40% {
-                text-shadow: 0 0 7px var(--accent-primary), -1px 1px 0px rgba(0,255,0,0.4);
-                transform: translate(0.5px, -0.5px);
-            }
-60% {
-                text-shadow: 0 0 8px var(--accent-primary);
-                transform: translate(0);
-            }
-            80% {
-                text-shadow: 0 0 10px var(--accent-primary), 0.5px 0.5px 0px rgba(0,0,255,0.4);
-                transform: translate(-0.5px, -0.5px);
-            }
-            100% {
-                text-shadow: 0 0 8px var(--accent-primary);
-                transform: translate(0);
-            }
-        }
+        /* Removed @keyframes pulseGlow */
+        /* Removed @keyframes glitchText */
 
         @keyframes gridPulse {
             0% { background-position: 0 0; }
@@ -822,7 +766,6 @@
             }
             .generic-section h2 { font-size: 2.5em; }
             .generic-section .gradient-subtitle { font-size: 1.3em; }
-            /* #threejs-container { height: 350px; } Removed */
 
             #highlights-carousel-section-v2 .carousel-wrapper {
                  height: 350px; 
@@ -920,7 +863,6 @@
              #highlights-carousel-section-v2 .carousel-item .absolute.bottom-0 p {
                 font-size: 0.75rem; 
              }
-            /* #threejs-container { height: 300px; } Removed */
 
             .savishkaara-content h2 { font-size: 2.5em; }
             .savishkaara-content p { font-size: 0.9em; }
@@ -930,84 +872,22 @@
         }
 
         /* --- SAVISHKAARA Section --- */
-        .savishkaara-section {
-            background-image:
-                linear-gradient(to right, var(--border-color-subtle) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--border-color-subtle) 1px, transparent 1px);
-            background-size: 30px 30px;
-            padding: 80px 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-
-        .savishkaara-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .savishkaara-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(to right, var(--transparent-white-subtle) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--transparent-white-subtle) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-            animation: gridPulse 18s linear infinite;
-            opacity: 0.15;
-        }
-
-        .savishkaara-content {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
         .savishkaara-content h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4em;
-            color: var(--primary-glow);
-            margin-bottom: 30px;
+            color: var(--text-primary);
+            margin-bottom: 15px;
             position: relative;
             display: inline-block;
         }
 
-        .savishkaara-content h2::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-color-1), var(--accent-color-2));
-            border-radius: 2px;
-            animation: expandUnderline 1.5s ease-out forwards;
-        }
-
         .savishkaara-content p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: var(--light-text-color);
-            margin-bottom: 30px;
-            max-width: 800px;
+            font-size: 1em;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out 0.5s forwards, transform 0.8s ease-out 0.5s forwards;
-        }
-
-        .savishkaara-section.visible .savishkaara-content p {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .savishkaara-logos {
@@ -1017,14 +897,6 @@
             flex-wrap: wrap;
             gap: 40px;
             margin-top: 50px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out 0.8s forwards, transform 1s ease-out 0.8s forwards;
-        }
-
-        .savishkaara-section.visible .savishkaara-logos {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .savishkaara-main-logo {
@@ -1032,13 +904,6 @@
             display: flex;
             justify-content: center;
             margin-bottom: 40px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.8s ease-out 1s forwards, transform 0.8s ease-out 1s forwards;
-        }
-        .savishkaara-section.visible .savishkaara-main-logo {
-            opacity: 1;
-            transform: scale(1);
         }
 
         .savishkaara-main-logo img {
@@ -1054,17 +919,8 @@
         .savishkaara-sub-logo {
             max-width: 120px;
             height: auto;
-            /* Removed padding, border-radius, background to remove the "img box" */
             transition: all 0.3s ease-in-out;
-            opacity: 0;
-            transform: translateY(20px);
         }
-
-        .savishkaara-section.visible .savishkaara-sub-logo:nth-child(1) { animation: logoFadeIn 0.6s ease-out forwards 1.2s; }
-        .savishkaara-section.visible .savishkaara-sub-logo:nth-child(2) { animation: logoFadeIn 0.6s ease-out forwards 1.3s; }
-        .savishkaara-section.visible .savishkaara-sub-logo:nth-child(3) { animation: logoFadeIn 0.6s ease-out forwards 1.4s; }
-        .savishkaara-section.visible .savishkaara-sub-logo:nth-child(4) { animation: logoFadeIn 0.6s ease-out forwards 1.5s; }
-        .savishkaara-section.visible .savishkaara-sub-logo:nth-child(5) { animation: logoFadeIn 0.6s ease-out forwards 1.6s; }
 
         .savishkaara-sub-logo img {
             display: block;
@@ -1074,8 +930,76 @@
         }
 
         .savishkaara-sub-logo:hover {
-            /* Removed background and adjusted transform to remove the "img box" hover effect */
             transform: translateY(-5px) scale(1.05); 
+        }
+
+        .team-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtler shadow */
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px) scale(1.01); /* Reduced hover effect */
+            border-color: var(--card-hover-border);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Subtler hover shadow */
+        }
+
+        .team-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px auto;
+            border: 2px solid var(--accent-primary); /* Slightly thinner border */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtler image shadow */
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover img {
+            transform: scale(1.02); /* Reduced image scale on hover */
+            box-shadow: 0 0 8px var(--accent-primary); /* Subtler image hover shadow */
+        }
+
+        .team-card h3 {
+            font-family: 'Quantico', sans-serif;
+            font-size: 1.4em;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .team-card p {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .team-card .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--text-primary);
+            font-size: 1.5em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .team-card .social-links a:hover {
+            color: var(--accent-primary);
+            transform: scale(1.1); /* Reduced scale on hover */
         }
     </style>
 </head>
@@ -1175,12 +1099,12 @@
     </section>
 
 
-    <section id="savishkaara-section" class=" savishkaara-section" style="min-height: 300px;">
+    <section id="savishkaara-section" class="generic-section" style="min-height: 300px;">
         <div class="savishkaara-content">
              <h2 class="text-3xl font-bold text-center mb-2">About <span class="gradient-text">Savishkaara</span></h2>
             <p class="gradient-subtitle">Our Flagship Innovation Contest</p>
-            <p>The Annual Tech Fest at Amrita Vishwa Vidyapeetham, Kochi is a premier event organized by the Department of Computer Science & Information Technology in collaboration with the <b>Computer Society of India (CSI)</b>, <b>Innovation and Entrepreneurship Development Centre (IEDC)</b>, <b>Software Innovators' Club (SIC)</b>, and <b>Institution's Innovation Council (IIC)</b>.</p>
-            <p>This fest brings together students, industry experts, and innovators to showcase cutting-edge technology and ideas. The event fosters creativity, innovation, and collaboration, serving as a platform for participants to explore advancements in the tech world.</p>
+            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">The Annual Tech Fest at Amrita Vishwa Vidyapeetham, Kochi is a premier event organized by the Department of Computer Science & Information Technology in collaboration with the <b>Computer Society of India (CSI)</b>, <b>Innovation and Entrepreneurship Development Centre (IEDC)</b>, <b>Software Innovators' Club (SIC)</b>, and <b>Institution's Innovation Council (IIC)</b>.</p>
+            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">This fest brings together students, industry experts, and innovators to showcase cutting-edge technology and ideas. The event fosters creativity, innovation, and collaboration, serving as a platform for participants to explore advancements in the tech world.</p>
 
             <div class="savishkaara-main-logo">
                 <img src="./assets/2024/savishkaara.png" alt="Savishkaara Main Logo">
@@ -1188,7 +1112,7 @@
 
             <div class="savishkaara-logos">
                 <div class="savishkaara-sub-logo">
-                    <img src="./assets/2024/iedc white.png" alt="IEDC Sub Logo">
+                    <img src="./assets/2024/iedcwhite.png" alt="IEDC Sub Logo">
                 </div>
                 <div class="savishkaara-sub-logo">
                     <img src="./assets/2024/SIC Logo.png" alt="SIC Logo">
@@ -1206,9 +1130,122 @@
      <section id="team" class="generic-section" style="min-height: 300px; ">
         <h2 class="text-3xl font-bold text-center mb-2">Our <span class="gradient-text">Team</span></h2>
         <p class="gradient-subtitle">Meet the Driving Force</p>
-        <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">
-            Content for Team section goes here. Profiles of our core team members and mentors...
-        </p>
+        
+        <h3 class="text-2xl font-bold text-center mb-8" style="color: var(--text-primary); margin-top: 50px;">Faculty Coordinators</h3>
+        <div class="team-card-container">
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Faculty Coordinator 1 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Faculty+1';">
+                <h3>Dr. A. B. Kumar</h3>
+                <p>Assistant Professor, Dept. of CSE</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/dr-a-b-kumar/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Faculty Coordinator 2 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Faculty+2';">
+                <h3>Dr. R. Singh</h3>
+                <p>Associate Professor, Dept. of ECE</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold text-center mb-8" style="color: var(--text-primary); margin-top: 80px;">Student Core Team</h3>
+        <div class="team-card-container">
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 1 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+1';">
+                <h3>Alice Johnson</h3>
+                <p>Lead Innovator</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 2 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+2';">
+                <h3>Bob Williams</h3>
+                <p>Marketing Head</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+             <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 3 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+3';">
+                <h3>Charlie Brown</h3>
+                <p>Technical Lead</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+             <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 4 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+4';">
+                <h3>Diana Prince</h3>
+                <p>Events Coordinator</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 5 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+5';">
+                <h3>Ethan Hunt</h3>
+                <p>Web Developer</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 6 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+6';">
+                <h3>Fiona Gallagher</h3>
+                <p>Design Lead</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 7 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+7';">
+                <h3>George Costanza</h3>
+                <p>Outreach Specialist</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 8 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+8';">
+                <h3>Hannah Baker</h3>
+                <p>Content Creator</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 9 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+9';">
+                <h3>Ian Malcolm</h3>
+                <p>Research & Development</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 10 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+10';">
+                <h3>Jessica Day</h3>
+                <p>Finance & Sponsorship</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="./assets/NANU.jpg" alt="Team Member 11 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+11';">
+                <h3>Kevin Malone</h3>
+                <p>Logistics Manager</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="highlights-carousel-section-v2" class="generic-section"> 
@@ -1313,7 +1350,6 @@
             { text: "TEAM", href: "#team" },
             { text: "EVENTS", href: "#events" },
             { text: "RESOURCES", href: "#resources" }
-            // Removed { text: "3D DEMO", href: "#interactive-3d-section"}
         ];
 
         function createMenuItems() {
@@ -1375,7 +1411,7 @@
         }, observerOptions);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const sectionsToObserve = document.querySelectorAll('.main-content, .generic-section, .savishkaara-section');
+            const sectionsToObserve = document.querySelectorAll('.main-content, .generic-section'); 
             sectionsToObserve.forEach(section => {
                 if (section) sectionObserver.observe(section);
             });
@@ -1407,7 +1443,7 @@
                 title: "Community Workshop",
                 description: "Learning and growing together as a community."
             },
-            {
+                {
                 imgSrc: "https://placehold.co/600x400/06b6d4/ffffff?text=Product+Launch+Event",
                 altText: "Product Launch Event",
                 title: "Product Launch Event",
@@ -1429,7 +1465,7 @@
 
         function createCarouselItem(itemData, index) {
             const itemDiv = document.createElement('div');
-            itemDiv.className = 'carousel-item absolute w-4/5 h-4/5 sm:w-3/5 sm:h-5/6 md:w-1/2 md:h-full shadow-xl rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700'; 
+            itemDiv.className = 'carousel-item absolute w-4/5 h-4/5 sm:w-3/5 sm:h-5/6 md:w-1/2 md:h=full shadow-xl rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700'; 
 
             const img = document.createElement('img');
             img.src = itemData.imgSrc;
@@ -1521,7 +1557,7 @@
             if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
                 return;
             }
-            if (items.length === 0 || !carouselContainer || !carouselContainer.closest('.savishkaara-section.visible')) return; 
+            if (items.length === 0 || !carouselContainer || !carouselContainer.closest('.generic-section.visible')) return; 
 
             if (e.key === 'ArrowLeft') {
                 currentIndex = (currentIndex - 1 + items.length) % items.length;
@@ -1561,8 +1597,7 @@
 
         document.addEventListener('DOMContentLoaded', initializeCarousel);
 
-        // --- Removed Three.js Logic ---
-
     </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
