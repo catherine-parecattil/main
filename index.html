@@ -1,1603 +1,2136 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IEDC // Quantum Gateway</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:400,700&family=Quantico:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:400,700&family=Quantico:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <style>
-        /* Dark Theme Variables (Default) */
-:root {
-            --bg-main: #080808;
-            --bg-secondary: #000000;
-            --text-primary: #e6e6e6;
-            --text-secondary: #b0b0b0;
-            --text-subtle: rgba(255, 255, 255, 0.8);
+      /* Dark Theme Variables (Default) */
+      :root {
+        --bg-main: #080808;
+        --bg-secondary: #000000;
+        --text-primary: #e6e6e6;
+        --text-secondary: #b0b0b0;
+        --text-subtle: rgba(255, 255, 255, 0.8);
 
-            --accent-primary: #00e0ff; /* Bright Cyan/Blue glow */
-            --accent-secondary: #ff6f00; /* Intense Orange/Red glow */
-            --accent-gradient-start: #00e5ff; /* Vibrant Cyan */
-            --accent-gradient-end: #ffea00; /* Electric Yellow */
+        --accent-primary: #00e0ff; /* Bright Cyan/Blue glow */
+        --accent-secondary: #ff6f00; /* Intense Orange/Red glow */
+        --accent-gradient-start: #00e5ff; /* Vibrant Cyan */
+        --accent-gradient-end: #ffea00; /* Electric Yellow */
 
-            --overlay-bg: rgba(0, 0, 0, 0.98);
+        --overlay-bg: rgba(0, 0, 0, 0.98);
 
-            --transparent-accent-light: rgba(0, 224, 255, 0.2);
-            --transparent-accent-medium: rgba(0, 224, 255, 0.4);
-            --transparent-accent-dark: rgba(0, 224, 255, 0.08);
-            --border-color-subtle: rgba(255, 255, 255, 0.03); /* For main grid */
+        --transparent-accent-light: rgba(0, 224, 255, 0.2);
+        --transparent-accent-medium: rgba(0, 224, 255, 0.4);
+        --transparent-accent-dark: rgba(0, 224, 255, 0.08);
+        --border-color-subtle: rgba(255, 255, 255, 0.03); /* For main grid */
 
-            /* Section Specific Colors */
-            --card-bg: rgba(0, 224, 255, 0.05);
-            --card-border: rgba(0, 224, 255, 0.2);
-            --card-hover-border: var(--accent-gradient-start);
-            --logo-glow: rgba(0, 224, 255, 0.6);
+        /* Section Specific Colors */
+        --card-bg: rgba(0, 224, 255, 0.05);
+        --card-border: rgba(0, 224, 255, 0.2);
+        --card-hover-border: var(--accent-gradient-start);
+        --logo-glow: rgba(0, 224, 255, 0.6);
+      }
+
+      /* Light Theme Variables */
+      body.light-theme {
+        --bg-main: #d5d5d5;
+        --bg-secondary: #d5d5d5;
+        --text-primary: #333333;
+        --text-secondary: #555555;
+        --text-subtle: rgba(0, 0, 0, 0.7);
+
+        --accent-primary: #2196f3; /* Medium Blue */
+        --accent-secondary: #ff9800; /* Orange */
+        --accent-gradient-start: #1976d2; /* Darker Blue */
+        --accent-gradient-end: #ffc107; /* Amber Yellow */
+
+        --overlay-bg: rgba(255, 255, 255, 0.95);
+
+        --transparent-accent-light: rgba(33, 150, 243, 0.15);
+        --transparent-accent-medium: rgba(33, 150, 243, 0.3);
+        --transparent-accent-dark: rgba(33, 150, 243, 0.06);
+        --border-color-subtle: rgba(0, 0, 0, 0.05); /* For main grid */
+
+        /* Section Specific Colors */
+        --card-bg: rgba(33, 150, 243, 0.05);
+        --card-border: rgba(33, 150, 243, 0.2);
+        --card-hover-border: var(--accent-gradient-start);
+        --logo-glow: rgba(33, 150, 243, 0.4);
+      }
+
+      /* Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: var(--bg-main);
+        font-family: "Roboto Mono", monospace;
+        color: var(--text-primary);
+        overflow-x: hidden;
+        transition: background 0.5s ease, color 0.5s ease;
+      }
+      #highlights-carousel-section-v2,
+      #highlights-carousel-section-v2 * {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Utility Classes */
+      .gradient-text {
+        background: linear-gradient(
+          90deg,
+          var(--accent-gradient-start) 0%,
+          var(--accent-gradient-end) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        /* Removed text-shadow */
+      }
+
+      /* --- Logo --- */
+      .logo-container {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        z-index: 1000;
+      }
+
+      .logo-container img {
+        height: 45px;
+        width: auto;
+      }
+
+      /* --- Hamburger Menu --- */
+      .hamburger-button {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        width: 40px;
+        height: 40px;
+        background: var(--transparent-accent-light);
+        border: 1px solid var(--accent-primary);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1002;
+        padding: 8px 0;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger-button:hover {
+        background: var(--transparent-accent-medium);
+        transform: scale(1.08);
+      }
+
+      .hamburger-button .bar {
+        width: 70%;
+        height: 3px;
+        background-color: var(--accent-primary);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger-button.open .bar:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .hamburger-button.open .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger-button.open .bar:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      /* --- Full-Page Navigation Menu --- */
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--overlay-bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+        pointer-events: none;
+        perspective: 1000px;
+        overflow: hidden;
+      }
+
+      .nav-menu.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+      }
+
+      .nav-menu::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            to right,
+            var(--transparent-accent-dark) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            var(--transparent-accent-dark) 1px,
+            transparent 1px
+          );
+        background-size: 40px 40px;
+        /* Removed animation: gridPulse */
+        opacity: 0.4;
+        z-index: -1;
+      }
+
+      .nav-menu ul {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+        transform: translateY(30px);
+        opacity: 0;
+        transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+      }
+
+      .nav-menu.open ul {
+        transform: translateY(0);
+        opacity: 1;
+        transition-delay: 0.3s;
+      }
+
+      .nav-menu ul li {
+        margin: 20px 0;
+        opacity: 0;
+        transform: translateX(-70px);
+        filter: blur(8px);
+      }
+
+      /* Staggered animation for menu items on open */
+      .nav-menu.open ul li:nth-child(1) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 0.45s;
+      }
+      .nav-menu.open ul li:nth-child(2) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 0.6s;
+      }
+      .nav-menu.open ul li:nth-child(3) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 0.75s;
+      }
+      .nav-menu.open ul li:nth-child(4) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 0.9s;
+      }
+      .nav-menu.open ul li:nth-child(5) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 1.05s;
+      }
+      .nav-menu.open ul li:nth-child(6) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 1.2s;
+      }
+      .nav-menu.open ul li:nth-child(7) {
+        animation: menuItemIn 0.6s ease-out forwards;
+        animation-delay: 1.35s;
+      }
+
+      .nav-menu ul li a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-family: "Quantico", sans-serif;
+        font-size: 2.5em;
+        font-weight: 700;
+        transition: all 0.4s ease;
+        position: relative;
+        display: inline-block;
+        letter-spacing: 2px;
+      }
+
+      .nav-menu ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        width: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-gradient-start),
+          var(--accent-gradient-end)
+        );
+        transform: translateX(-50%);
+        transition: width 0.4s ease;
+      }
+
+      .nav-menu ul li a:hover {
+        color: var(--accent-primary); /* Changed to accent-primary */
+        transform: scale(1.05); /* Slightly reduced scale */
+        letter-spacing: 3px; /* Slightly reduced letter-spacing */
+      }
+
+      .nav-menu ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* --- Theme Toggle Button --- */
+      .theme-toggle {
+        position: fixed;
+        top: 25px;
+        right: 80px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--transparent-accent-light);
+        border: 1px solid var(--accent-primary);
+        cursor: pointer;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease, border-color 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        background-color: var(--transparent-accent-medium);
+        transform: scale(1.08);
+      }
+
+      .theme-toggle::before {
+        content: "🌙";
+        font-size: 20px;
+        color: var(--text-primary);
+        transition: color 0.5s ease;
+      }
+
+      body.light-theme .theme-toggle::before {
+        content: "☀️";
+        color: var(--text-primary);
+      }
+
+      /* --- Preloader --- */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        background-color: var(--bg-secondary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 1s ease-out, visibility 1s ease-out,
+          background-color 0.5s ease;
+      }
+
+      #preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      #preloader img {
+        width: 100px;
+        height: auto;
+        margin-bottom: 25px;
+        /* Removed animation */
+      }
+
+      .loader-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        border: 5px solid rgba(255, 255, 255, 0.1);
+        border-top: 5px solid var(--accent-gradient-start);
+        border-right: 5px solid var(--accent-gradient-end);
+        border-radius: 50%;
+        animation: spin 1.2s linear infinite;
+        margin-bottom: 15px;
+      }
+
+      .loading-text {
+        color: var(--accent-primary);
+        font-family: "Orbitron", sans-serif;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+        /* Removed animation: glitchText */
+      }
+
+      /* --- Main Content / Hero Section --- */
+      .main-content {
+        min-height: 100vh;
+        background: linear-gradient(
+          to bottom,
+          var(--bg-main) 0%,
+          var(--bg-secondary) 100%
+        );
+        color: var(--text-primary);
+        padding: 50px 30px 50px 120px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 1.2s ease-out, transform 1.2s ease-out,
+          background 0.5s ease, color 0.5s ease;
+        visibility: hidden;
+      }
+
+      .main-content.visible {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+      }
+
+      /* Background Grid Effect */
+      .main-content::before,
+      .generic-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            to right,
+            var(--border-color-subtle) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            var(--border-color-subtle) 1px,
+            transparent 1px
+          );
+        background-size: 30px 30px;
+        pointer-events: none;
+        z-index: 0;
+        /* Removed animation: gridPulse */
+      }
+
+      .hero-left {
+        flex: 1.2;
+        z-index: 1;
+      }
+
+      /* Animations for homepage text elements - consolidated delays in CSS */
+      .hero-left > * {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+      }
+
+      .main-content.visible .hero-left h1 {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1s;
+      }
+
+      .main-content.visible .hero-left .amrita-text {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1.3s;
+      }
+
+      .main-content.visible .hero-left p:not(.amrita-text) {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1.6s;
+      }
+
+      .main-content.visible .hero-left .cta-button {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 1.9s;
+      }
+
+      .hero-left h1 {
+        font-family: "Orbitron", sans-serif;
+        font-size: 48px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      .hero-left .amrita-text {
+        font-family: "Orbitron", sans-serif;
+        font-size: 28px;
+        line-height: 1.3;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+        max-width: 550px;
+      }
+
+      .hero-left p:not(.amrita-text) {
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 20px;
+        max-width: 400px;
+        color: var(--text-subtle);
+      }
+
+      .cta-button {
+        background: linear-gradient(
+          45deg,
+          var(--accent-gradient-start),
+          var(--accent-secondary)
+        );
+        border: none;
+        padding: 10px 22px;
+        font-size: 15px;
+        font-weight: bold;
+        color: #ffffff;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(
+          45deg,
+          var(--accent-secondary),
+          var(--accent-gradient-start)
+        );
+      }
+
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(
+          45deg,
+          var(--accent-primary),
+          transparent,
+          var(--accent-secondary)
+        );
+        z-index: -1;
+        filter: blur(0px); /* Reduced blur for subtle effect */
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+      }
+
+      .cta-button:hover::before {
+        opacity: 0.5; /* Reduced opacity for subtle effect */
+      }
+
+      .hero-right {
+        flex: 0.8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* --- Image Container --- */
+      .image-container {
+        position: relative;
+        width: fit-content;
+        border-radius: 10px;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateX(70px);
+        transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        /* Removed animation: floating */
+      }
+
+      .main-content.visible .image-container {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 1.2s;
+      }
+
+      .hero-image {
+        display: block;
+        max-width: 350px;
+        height: auto;
+        transition: transform 0.4s ease;
+      }
+
+      /* --- Generic Section Styling --- */
+      .generic-section {
+        padding: 80px 30px;
+        text-align: center;
+        position: relative;
+        background: var(--bg-secondary);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+        visibility: hidden;
+      }
+      .generic-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+      }
+
+      /* Ensure generic section titles and subtitles use their intended fonts, not Inter */
+      .generic-section h2 {
+        font-family: "Orbitron", sans-serif;
+        font-size: 3em;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+      }
+      .generic-section .gradient-subtitle {
+        font-family: "Quantico", sans-serif;
+        font-size: 1.5em;
+        margin-bottom: 40px;
+      }
+
+      /* --- Carousel Section V2 Specific Styles --- */
+      #highlights-carousel-section-v2 h2,
+      #highlights-carousel-section-v2 p {
+        font-family: "Inter", sans-serif;
+      }
+      #highlights-carousel-section-v2 h2 {
+        color: var(--text-primary);
+      }
+      body.light-theme #highlights-carousel-section-v2 h2 {
+        color: #1f2937;
+      }
+      #highlights-carousel-section-v2 p {
+        color: var(--text-secondary);
+      }
+      body.light-theme #highlights-carousel-section-v2 p {
+        color: #4b5563;
+      }
+      #highlights-carousel-section-v2 h2 .text-indigo-600 {
+        font-family: inherit;
+      }
+      body.dark-theme #highlights-carousel-section-v2 h2 .text-indigo-600 {
+        color: var(--accent-primary) !important;
+      }
+      body.light-theme #highlights-carousel-section-v2 h2 .text-indigo-600 {
+        color: #4f46e5 !important;
+      }
+
+      .carousel-wrapper {
+        perspective: 1000px;
+      }
+
+      .carousel-item {
+        left: 50%;
+        top: 50%;
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out,
+          z-index 0.5s ease-in-out;
+        backface-visibility: hidden;
+      }
+
+      .carousel-item.active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        z-index: 30;
+      }
+
+      .carousel-item.prev {
+        transform: translate(-50%, -50%) translateX(-50%) scale(0.8)
+          rotateY(0deg); /* Removed rotation */
+        opacity: 0.7;
+        z-index: 20;
+      }
+      .carousel-item.prev-2 {
+        transform: translate(-50%, -50%) translateX(-80%) scale(0.6)
+          rotateY(0deg); /* Removed rotation */
+        opacity: 0.4;
+        z-index: 10;
+      }
+
+      .carousel-item.next {
+        transform: translate(-50%, -50%) translateX(50%) scale(0.8)
+          rotateY(0deg); /* Removed rotation */
+        opacity: 0.7;
+        z-index: 20;
+      }
+      .carousel-item.next-2 {
+        transform: translate(-50%, -50%) translateX(80%) scale(0.6)
+          rotateY(0deg); /* Removed rotation */
+        opacity: 0.4;
+        z-index: 10;
+      }
+
+      .carousel-item.hide-left {
+        transform: translate(-50%, -50%) translateX(-100%) scale(0.5)
+          rotateY(0deg); /* Removed rotation */
+        opacity: 0;
+        z-index: 0;
+      }
+      .carousel-item.hide-right {
+        transform: translate(-50%, -50%) translateX(100%) scale(0.5)
+          rotateY(0deg); /* Removed rotation */
+        opacity: 0;
+        z-index: 0;
+      }
+
+      .carousel-nav-button {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      .carousel-nav-button:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+      body.light-theme .carousel-nav-button {
+        background-color: rgba(255, 255, 255, 0.6);
+        color: #333;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      body.light-theme .carousel-nav-button:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      .carousel-nav-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--transparent-accent-medium);
+      }
+
+      .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0.75rem;
+      }
+      .carousel-item .absolute.bottom-0 h3,
+      .carousel-item .absolute.bottom-0 p {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* --- Animations --- */
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
+      }
 
-        /* Light Theme Variables */
-        body.light-theme {
-            --bg-main: #d5d5d5;
-            --bg-secondary: #d5d5d5;
-            --text-primary: #333333;
-            --text-secondary: #555555;
-            --text-subtle: rgba(0, 0, 0, 0.7);
-
-            --accent-primary: #2196F3; /* Medium Blue */
-            --accent-secondary: #FF9800; /* Orange */
-            --accent-gradient-start: #1976D2; /* Darker Blue */
-            --accent-gradient-end: #FFC107; /* Amber Yellow */
-
-            --overlay-bg: rgba(255, 255, 255, 0.95);
-
-            --transparent-accent-light: rgba(33, 150, 243, 0.15);
-            --transparent-accent-medium: rgba(33, 150, 243, 0.3);
-            --transparent-accent-dark: rgba(33, 150, 243, 0.06);
-            --border-color-subtle: rgba(0, 0, 0, 0.05); /* For main grid */
-
-            /* Section Specific Colors */
-            --card-bg: rgba(33, 150, 243, 0.05);
-            --card-border: rgba(33, 150, 243, 0.2);
-            --card-hover-border: var(--accent-gradient-start);
-            --logo-glow: rgba(33, 150, 243, 0.4);
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
-
-        /* Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        to {
+          opacity: 1;
         }
+      }
 
-        html, body {
-            height: 100%;
-            background: var(--bg-main);
-            font-family: 'Roboto Mono', monospace;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            transition: background 0.5s ease, color 0.5s ease;
+      /* Removed @keyframes pulseGlow */
+      /* Removed @keyframes glitchText */
+
+      @keyframes gridPulse {
+        0% {
+          background-position: 0 0;
         }
-        #highlights-carousel-section-v2, #highlights-carousel-section-v2 * {
-             font-family: 'Inter', sans-serif;
+        100% {
+          background-position: 40px 40px;
         }
+      }
 
-
-        /* Utility Classes */
-        .gradient-text {
-            background: linear-gradient(90deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            /* Removed text-shadow */
+      @keyframes floating {
+        0% {
+          transform: translateY(0px);
         }
-
-        /* --- Logo --- */
-        .logo-container {
-            position: absolute;
-            top: 25px;
-            left: 25px;
-            z-index: 1000;
+        50% {
+          transform: translateY(-10px);
         }
-
-        .logo-container img {
-            height: 45px;
-            width: auto;
+        100% {
+          transform: translateY(0px);
         }
+      }
 
-        /* --- Hamburger Menu --- */
-        .hamburger-button {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            width: 40px;
-            height: 40px;
-            background: var(--transparent-accent-light);
-            border: 1px solid var(--accent-primary);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1002;
-            padding: 8px 0;
-            transition: all 0.3s ease;
+      @keyframes menuItemIn {
+        from {
+          opacity: 0;
+          transform: translateX(-70px) rotateY(-40deg);
+          filter: blur(8px);
         }
-
-        .hamburger-button:hover {
-            background: var(--transparent-accent-medium);
-            transform: scale(1.08);
+        to {
+          opacity: 1;
+          transform: translateX(0) rotateY(0deg);
+          filter: blur(0);
         }
+      }
 
-        .hamburger-button .bar {
-            width: 70%;
-            height: 3px;
-            background-color: var(--accent-primary);
-            border-radius: 2px;
-            transition: all 0.3s ease;
+      @keyframes expandUnderline {
+        from {
+          width: 0;
         }
-
-        .hamburger-button.open .bar:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
+        to {
+          width: 80px;
         }
+      }
 
-        .hamburger-button.open .bar:nth-child(2) {
-            opacity: 0;
+      @keyframes logoFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-
-        .hamburger-button.open .bar:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
 
-        /* --- Full-Page Navigation Menu --- */
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--overlay-bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
-            pointer-events: none;
-            perspective: 1000px;
-            overflow: hidden;
-        }
-
-        .nav-menu.open {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: all;
-        }
-
-        .nav-menu::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(to right, var(--transparent-accent-dark) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--transparent-accent-dark) 1px, transparent 1px);
-            background-size: 40px 40px;
-            /* Removed animation: gridPulse */
-            opacity: 0.4;
-            z-index: -1;
-        }
-
-        .nav-menu ul {
-            list-style: none;
-            padding: 0;
-            text-align: center;
-            transform: translateY(30px);
-            opacity: 0;
-            transition: transform 0.7s ease-out, opacity 0.7s ease-out;
-        }
-
-        .nav-menu.open ul {
-            transform: translateY(0);
-            opacity: 1;
-            transition-delay: 0.3s;
-        }
-
-        .nav-menu ul li {
-            margin: 20px 0;
-            opacity: 0;
-            transform: translateX(-70px);
-            filter: blur(8px);
-        }
-
-        /* Staggered animation for menu items on open */
-        .nav-menu.open ul li:nth-child(1) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.45s; }
-        .nav-menu.open ul li:nth-child(2) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.6s; }
-        .nav-menu.open ul li:nth-child(3) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.75s; }
-        .nav-menu.open ul li:nth-child(4) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.9s; }
-        .nav-menu.open ul li:nth-child(5) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.05s; }
-        .nav-menu.open ul li:nth-child(6) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.2s; }
-        .nav-menu.open ul li:nth-child(7) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.35s; }
-
-
-        .nav-menu ul li a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-family: 'Quantico', sans-serif;
-            font-size: 2.5em;
-            font-weight: 700;
-            transition: all 0.4s ease;
-            position: relative;
-            display: inline-block;
-            letter-spacing: 2px;
-        }
-
-        .nav-menu ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            width: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-gradient-start), var(--accent-gradient-end));
-            transform: translateX(-50%);
-            transition: width 0.4s ease;
-        }
-
-        .nav-menu ul li a:hover {
-            color: var(--accent-primary); /* Changed to accent-primary */
-            transform: scale(1.05); /* Slightly reduced scale */
-            letter-spacing: 3px; /* Slightly reduced letter-spacing */
-        }
-
-        .nav-menu ul li a:hover::after {
-            width: 100%;
-        }
-
-        /* --- Theme Toggle Button --- */
-        .theme-toggle {
-            position: fixed;
-            top: 25px;
-            right: 80px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--transparent-accent-light);
-            border: 1px solid var(--accent-primary);
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--transparent-accent-medium);
-            transform: scale(1.08);
-        }
-
-        .theme-toggle::before {
-            content: '🌙';
-            font-size: 20px;
-            color: var(--text-primary);
-            transition: color 0.5s ease;
-        }
-
-        body.light-theme .theme-toggle::before {
-            content: '☀️';
-            color: var(--text-primary);
-        }
-
-
-        /* --- Preloader --- */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background-color: var(--bg-secondary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 1s ease-out, visibility 1s ease-out, background-color 0.5s ease;
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        #preloader img {
-            width: 100px;
-            height: auto;
-            margin-bottom: 25px;
-            /* Removed animation */
-        }
-
-        .loader-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top: 5px solid var(--accent-gradient-start);
-            border-right: 5px solid var(--accent-gradient-end);
-            border-radius: 50%;
-            animation: spin 1.2s linear infinite;
-            margin-bottom: 15px;
-        }
-
-        .loading-text {
-            color: var(--accent-primary);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            letter-spacing: 1.5px;
-            /* Removed animation: glitchText */
-        }
-
-        /* --- Main Content / Hero Section --- */
+      /* --- Media Queries --- */
+      @media (max-width: 1024px) {
         .main-content {
-            min-height: 100vh;
-            background: linear-gradient(to bottom, var(--bg-main) 0%, var(--bg-secondary) 100%);
-            color: var(--text-primary);
-            padding: 50px 30px 50px 120px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.2s ease-out, transform 1.2s ease-out, background 0.5s ease, color 0.5s ease;
-            visibility: hidden;
+          padding: 40px 25px 40px 100px;
+          gap: 20px;
+        }
+        .hero-left h1 {
+          font-size: 42px;
+        }
+        .hero-left .amrita-text {
+          font-size: 24px;
+        }
+        .hero-left p:not(.amrita-text) {
+          font-size: 15px;
+        }
+        .hero-image {
+          max-width: 300px;
+        }
+        .logo-container {
+          top: 20px;
+          left: 20px;
+        }
+        .logo-container img {
+          height: 40px;
+        }
+        .hamburger-button {
+          top: 20px;
+          right: 20px;
+          width: 38px;
+          height: 38px;
+        }
+        .hamburger-button .bar {
+          height: 3px;
+        }
+        .hamburger-button.open .bar:nth-child(1) {
+          transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-button.open .bar:nth-child(3) {
+          transform: translateY(-8px) rotate(-45deg);
+        }
+        .nav-menu ul li a {
+          font-size: 2em;
+        }
+        .theme-toggle {
+          top: 20px;
+          right: 70px;
+        }
+        .generic-section h2 {
+          font-size: 2.5em;
+        }
+        .generic-section .gradient-subtitle {
+          font-size: 1.3em;
         }
 
-        .main-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
+        #highlights-carousel-section-v2 .carousel-wrapper {
+          height: 350px;
         }
 
-        /* Background Grid Effect */
-        .main-content::before,
-        .generic-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(to right, var(--border-color-subtle) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--border-color-subtle) 1px, transparent 1px);
-            background-size: 30px 30px;
-            pointer-events: none;
-            z-index: 0;
-            /* Removed animation: gridPulse */
+        .savishkaara-content h2 {
+          font-size: 3em;
         }
+        .savishkaara-content p {
+          font-size: 1em;
+        }
+        .savishkaara-logos {
+          gap: 30px;
+          margin-top: 40px;
+        }
+        .savishkaara-main-logo img {
+          max-width: 150px;
+        }
+        .savishkaara-sub-logo {
+          max-width: 100px;
+        }
+      }
 
+      @media (max-width: 768px) {
+        .main-content {
+          flex-direction: column;
+          padding: 35px 20px;
+          gap: 15px;
+          text-align: center;
+        }
 
         .hero-left {
-            flex: 1.2;
-            z-index: 1;
-        }
-
-        /* Animations for homepage text elements - consolidated delays in CSS */
-        .hero-left > * {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.9s ease-out, transform 0.9s ease-out;
-        }
-
-        .main-content.visible .hero-left h1 {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 1s;
-        }
-
-        .main-content.visible .hero-left .amrita-text {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 1.3s;
-        }
-
-        .main-content.visible .hero-left p:not(.amrita-text) {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 1.6s;
-        }
-
-        .main-content.visible .hero-left .cta-button {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 1.9s;
-        }
-
-        .hero-left h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 48px;
-            margin-bottom: 12px;
-            font-weight: 700;
-            line-height: 1.1;
-        }
-
-        .hero-left .amrita-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            line-height: 1.3;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            max-width: 550px;
-        }
-
-        .hero-left p:not(.amrita-text) {
-            font-size: 16px;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            max-width: 400px;
-            color: var(--text-subtle);
-        }
-
-        .cta-button {
-            background: linear-gradient(45deg, var(--accent-gradient-start), var(--accent-secondary));
-            border: none;
-            padding: 10px 22px;
-            font-size: 15px;
-            font-weight: bold;
-            color: #ffffff;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.4s ease-in-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-gradient-start));
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(45deg, var(--accent-primary), transparent, var(--accent-secondary));
-            z-index: -1;
-            filter: blur(0px); /* Reduced blur for subtle effect */
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-        }
-
-        .cta-button:hover::before {
-            opacity: 0.5; /* Reduced opacity for subtle effect */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         .hero-right {
-            flex: 0.8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 1;
+          margin-top: 20px;
         }
 
-        /* --- Image Container --- */
-        .image-container {
-            position: relative;
-            width: fit-content;
-            border-radius: 10px;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateX(70px);
-            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-            /* Removed animation: floating */
+        .hero-left h1 {
+          font-size: 32px;
+          margin-bottom: 10px;
         }
 
-        .main-content.visible .image-container {
-            opacity: 1;
-            transform: translateX(0);
-            transition-delay: 1.2s;
+        .hero-left .amrita-text {
+          font-size: 20px;
+        }
+
+        .hero-left p:not(.amrita-text) {
+          font-size: 14px;
+          margin-bottom: 20px;
+          max-width: 100%;
+        }
+
+        .cta-button {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+
+        #preloader img {
+          width: 70px;
+        }
+
+        .loader {
+          width: 50px;
+          height: 50px;
+          border-width: 3px;
+        }
+
+        .loading-text {
+          font-size: 14px;
         }
 
         .hero-image {
-            display: block;
-            max-width: 350px;
-            height: auto;
-            transition: transform 0.4s ease;
+          max-width: 70%;
         }
-        
-        /* --- Generic Section Styling --- */
+        .logo-container {
+          top: 15px;
+          left: 15px;
+        }
+        .logo-container img {
+          height: 35px;
+        }
+        .hamburger-button {
+          top: 15px;
+          right: 15px;
+        }
+        .theme-toggle {
+          top: 15px;
+          right: 60px;
+        }
         .generic-section {
-            padding: 80px 30px;
-            text-align: center;
-            position: relative;
-            background: var(--bg-secondary);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            visibility: hidden;
+          padding: 60px 20px;
         }
-        .generic-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-
-        /* Ensure generic section titles and subtitles use their intended fonts, not Inter */
         .generic-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3em;
-            margin-bottom: 15px;
-            color: var(--text-primary);
+          font-size: 2em;
         }
         .generic-section .gradient-subtitle {
-            font-family: 'Quantico', sans-serif;
-            font-size: 1.5em;
-            margin-bottom: 40px;
+          font-size: 1.1em;
+          margin-bottom: 30px;
         }
 
-        /* --- Carousel Section V2 Specific Styles --- */
-        #highlights-carousel-section-v2 h2, 
-        #highlights-carousel-section-v2 p {
-            font-family: 'Inter', sans-serif;
+        #highlights-carousel-section-v2 .text-3xl {
+          font-size: 1.5rem;
         }
-        #highlights-carousel-section-v2 h2 { 
-             color: var(--text-primary); 
+        #highlights-carousel-section-v2 .text-lg {
+          font-size: 1rem;
         }
-         body.light-theme #highlights-carousel-section-v2 h2 {
-             color: #1f2937; 
-         }
-        #highlights-carousel-section-v2 p {
-            color: var(--text-secondary); 
+        #highlights-carousel-section-v2 .carousel-wrapper {
+          height: 250px;
         }
-        body.light-theme #highlights-carousel-section-v2 p {
-            color: #4b5563; 
+        #highlights-carousel-section-v2 .carousel-item .absolute.bottom-0 h3 {
+          font-size: 0.875rem;
         }
-        #highlights-carousel-section-v2 h2 .text-indigo-600 { 
-            font-family: inherit; 
-        }
-        body.dark-theme #highlights-carousel-section-v2 h2 .text-indigo-600 {
-            color: var(--accent-primary) !important; 
-        }
-         body.light-theme #highlights-carousel-section-v2 h2 .text-indigo-600 {
-            color: #4f46e5 !important; 
-         }
-
-
-        .carousel-wrapper {
-            perspective: 1000px; 
+        #highlights-carousel-section-v2 .carousel-item .absolute.bottom-0 p {
+          font-size: 0.75rem;
         }
 
-        .carousel-item {
-            left: 50%;
-            top: 50%;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, z-index 0.5s ease-in-out;
-            backface-visibility: hidden; 
-        }
-
-        .carousel-item.active {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-            z-index: 30;
-        }
-
-        .carousel-item.prev {
-            transform: translate(-50%, -50%) translateX(-50%) scale(0.8) rotateY(0deg); /* Removed rotation */
-            opacity: 0.7;
-            z-index: 20;
-        }
-        .carousel-item.prev-2 {
-            transform: translate(-50%, -50%) translateX(-80%) scale(0.6) rotateY(0deg); /* Removed rotation */
-            opacity: 0.4;
-            z-index: 10;
-        }
-
-        .carousel-item.next {
-            transform: translate(-50%, -50%) translateX(50%) scale(0.8) rotateY(0deg); /* Removed rotation */
-            opacity: 0.7;
-            z-index: 20;
-        }
-        .carousel-item.next-2 {
-            transform: translate(-50%, -50%) translateX(80%) scale(0.6) rotateY(0deg); /* Removed rotation */
-            opacity: 0.4;
-            z-index: 10;
-        }
-
-        .carousel-item.hide-left {
-            transform: translate(-50%, -50%) translateX(-100%) scale(0.5) rotateY(0deg); /* Removed rotation */
-            opacity: 0;
-            z-index: 0;
-        }
-        .carousel-item.hide-right {
-            transform: translate(-50%, -50%) translateX(100%) scale(0.5) rotateY(0deg); /* Removed rotation */
-            opacity: 0;
-            z-index: 0;
-        }
-
-        .carousel-nav-button {
-            background-color: rgba(0, 0, 0, 0.5); 
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        .carousel-nav-button:hover {
-            background-color: rgba(0, 0, 0, 0.8); 
-        }
-         body.light-theme .carousel-nav-button { 
-            background-color: rgba(255, 255, 255, 0.6);
-            color: #333;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        body.light-theme .carousel-nav-button:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .carousel-nav-button:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px var(--transparent-accent-medium);
-        }
-
-        .carousel-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            border-radius: 0.75rem; 
-        }
-        .carousel-item .absolute.bottom-0 h3,
-        .carousel-item .absolute.bottom-0 p {
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* --- Animations --- */
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Removed @keyframes pulseGlow */
-        /* Removed @keyframes glitchText */
-
-        @keyframes gridPulse {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 40px; }
-        }
-
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes menuItemIn {
-            from {
-                opacity: 0;
-                transform: translateX(-70px) rotateY(-40deg);
-                filter: blur(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) rotateY(0deg);
-                filter: blur(0);
-            }
-        }
-
-        @keyframes expandUnderline {
-            from { width: 0; }
-            to { width: 80px; }
-        }
-
-        @keyframes logoFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* --- Media Queries --- */
-        @media (max-width: 1024px) {
-            .main-content {
-                padding: 40px 25px 40px 100px;
-                gap: 20px;
-            }
-            .hero-left h1 {
-                font-size: 42px;
-            }
-            .hero-left .amrita-text {
-                font-size: 24px;
-            }
-            .hero-left p:not(.amrita-text) {
-                font-size: 15px;
-            }
-            .hero-image {
-                max-width: 300px;
-            }
-            .logo-container {
-                top: 20px;
-                left: 20px;
-            }
-            .logo-container img {
-                height: 40px;
-            }
-            .hamburger-button {
-                top: 20px;
-                right: 20px;
-                width: 38px;
-                height: 38px;
-            }
-            .hamburger-button .bar {
-                height: 3px;
-            }
-            .hamburger-button.open .bar:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .hamburger-button.open .bar:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-            .nav-menu ul li a {
-                font-size: 2em;
-            }
-            .theme-toggle {
-                top: 20px;
-                right: 70px; 
-            }
-            .generic-section h2 { font-size: 2.5em; }
-            .generic-section .gradient-subtitle { font-size: 1.3em; }
-
-            #highlights-carousel-section-v2 .carousel-wrapper {
-                 height: 350px; 
-            }
-
-            .savishkaara-content h2 { font-size: 3em; }
-            .savishkaara-content p { font-size: 1em; }
-            .savishkaara-logos { gap: 30px; margin-top: 40px; }
-            .savishkaara-main-logo img { max-width: 150px; }
-            .savishkaara-sub-logo { max-width: 100px; }
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-                padding: 35px 20px;
-                gap: 15px;
-                text-align: center; 
-            }
-
-            .hero-left {
-                display: flex;
-                flex-direction: column;
-                align-items: center; 
-            }
-
-            .hero-right {
-                margin-top: 20px;
-            }
-
-            .hero-left h1 {
-                font-size: 32px; 
-                margin-bottom: 10px;
-            }
-
-            .hero-left .amrita-text {
-                font-size: 20px; 
-            }
-
-            .hero-left p:not(.amrita-text) {
-                font-size: 14px;
-                margin-bottom: 20px;
-                max-width: 100%; 
-            }
-
-            .cta-button {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-
-            #preloader img {
-                width: 70px;
-            }
-
-            .loader {
-                width: 50px;
-                height: 50px;
-                border-width: 3px;
-            }
-
-            .loading-text {
-                font-size: 14px;
-            }
-
-            .hero-image {
-                max-width: 70%;
-            }
-            .logo-container {
-                top: 15px;
-                left: 15px;
-            }
-            .logo-container img {
-                height: 35px;
-            }
-            .hamburger-button {
-                top: 15px;
-                right: 15px;
-            }
-            .theme-toggle {
-                top: 15px;
-                right: 60px; 
-            }
-            .generic-section { padding: 60px 20px; }
-            .generic-section h2 { font-size: 2em; }
-            .generic-section .gradient-subtitle { font-size: 1.1em; margin-bottom: 30px;}
-            
-            #highlights-carousel-section-v2 .text-3xl { font-size: 1.5rem; }
-            #highlights-carousel-section-v2 .text-lg { font-size: 1rem; }
-            #highlights-carousel-section-v2 .carousel-wrapper {
-                 height: 250px; 
-            }
-             #highlights-carousel-section-v2 .carousel-item .absolute.bottom-0 h3 {
-                font-size: 0.875rem; 
-             }
-             #highlights-carousel-section-v2 .carousel-item .absolute.bottom-0 p {
-                font-size: 0.75rem; 
-             }
-
-            .savishkaara-content h2 { font-size: 2.5em; }
-            .savishkaara-content p { font-size: 0.9em; }
-            .savishkaara-logos { gap: 20px; margin-top: 30px; }
-            .savishkaara-main-logo img { max-width: 120px; }
-            .savishkaara-sub-logo { max-width: 80px; }
-        }
-
-        /* --- SAVISHKAARA Section --- */
         .savishkaara-content h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
+          font-size: 2.5em;
         }
-
         .savishkaara-content p {
-            font-size: 1em;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+          font-size: 0.9em;
         }
-
         .savishkaara-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-top: 50px;
+          gap: 20px;
+          margin-top: 30px;
         }
-
-        .savishkaara-main-logo {
-            flex-basis: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
         .savishkaara-main-logo img {
-            max-width: 180px;
-            height: auto;
-            transition: filter 0.3s ease-in-out, transform 0.3s ease-in-out;
+          max-width: 120px;
         }
-
-        .savishkaara-main-logo img:hover {
-            transform: scale(1.05);
-        }
-
         .savishkaara-sub-logo {
-            max-width: 120px;
-            height: auto;
-            transition: all 0.3s ease-in-out;
+          max-width: 80px;
         }
+      }
 
-        .savishkaara-sub-logo img {
-            display: block;
-            width: 100%;
-            height: auto;
-            transition: filter 0.3s ease-in-out, transform 0.3s ease-in-out;
-        }
+      /* --- SAVISHKAARA Section --- */
+      .savishkaara-content h2 {
+        font-family: "Orbitron", sans-serif;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+      }
 
-        .savishkaara-sub-logo:hover {
-            transform: translateY(-5px) scale(1.05); 
-        }
+      .savishkaara-content p {
+        font-size: 1em;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-        .team-card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
-        }
+      .savishkaara-logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin-top: 50px;
+      }
 
-        .team-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 280px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtler shadow */
-            transition: all 0.3s ease;
-        }
+      .savishkaara-main-logo {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
 
-        .team-card:hover {
-            transform: translateY(-5px) scale(1.01); /* Reduced hover effect */
-            border-color: var(--card-hover-border);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Subtler hover shadow */
-        }
+      .savishkaara-main-logo img {
+        max-width: 180px;
+        height: auto;
+        transition: filter 0.3s ease-in-out, transform 0.3s ease-in-out;
+      }
 
-        .team-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 15px auto;
-            border: 2px solid var(--accent-primary); /* Slightly thinner border */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtler image shadow */
-            transition: all 0.3s ease;
-        }
+      .savishkaara-main-logo img:hover {
+        transform: scale(1.05);
+      }
 
-        .team-card:hover img {
-            transform: scale(1.02); /* Reduced image scale on hover */
-            box-shadow: 0 0 8px var(--accent-primary); /* Subtler image hover shadow */
-        }
+      .savishkaara-sub-logo {
+        max-width: 120px;
+        height: auto;
+        transition: all 0.3s ease-in-out;
+      }
 
-        .team-card h3 {
-            font-family: 'Quantico', sans-serif;
-            font-size: 1.4em;
-            color: var(--accent-primary);
-            margin-bottom: 8px;
-        }
+      .savishkaara-sub-logo img {
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: filter 0.3s ease-in-out, transform 0.3s ease-in-out;
+      }
 
-        .team-card p {
-            font-family: 'Roboto Mono', monospace;
-            color: var(--text-secondary);
-            font-size: 0.9em;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
+      .savishkaara-sub-logo:hover {
+        transform: translateY(-5px) scale(1.05);
+      }
 
-        .team-card .social-links a {
-            display: inline-block;
-            margin: 0 8px;
-            color: var(--text-primary);
-            font-size: 1.5em;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
+      .team-card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 50px;
+      }
 
-        .team-card .social-links a:hover {
-            color: var(--accent-primary);
-            transform: scale(1.1); /* Reduced scale on hover */
-        }
+      .team-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 280px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtler shadow */
+        transition: all 0.3s ease;
+      }
+
+      .team-card:hover {
+        transform: translateY(-5px) scale(1.01); /* Reduced hover effect */
+        border-color: var(--card-hover-border);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Subtler hover shadow */
+      }
+
+      .team-card img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px auto;
+        border: 2px solid var(--accent-primary); /* Slightly thinner border */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtler image shadow */
+        transition: all 0.3s ease;
+      }
+
+      .team-card:hover img {
+        transform: scale(1.02); /* Reduced image scale on hover */
+        box-shadow: 0 0 8px var(--accent-primary); /* Subtler image hover shadow */
+      }
+
+      .team-card h3 {
+        font-family: "Quantico", sans-serif;
+        font-size: 1.4em;
+        color: var(--accent-primary);
+        margin-bottom: 8px;
+      }
+
+      .team-card p {
+        font-family: "Roboto Mono", monospace;
+        color: var(--text-secondary);
+        font-size: 0.9em;
+        line-height: 1.5;
+        margin-bottom: 15px;
+      }
+
+      .team-card .social-links a {
+        display: inline-block;
+        margin: 0 8px;
+        color: var(--text-primary);
+        font-size: 1.5em;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .team-card .social-links a:hover {
+        color: var(--accent-primary);
+        transform: scale(1.1); /* Reduced scale on hover */
+      }
     </style>
-</head>
-<body class="dark-theme"> 
+  </head>
+  <body class="dark-theme">
     <div id="preloader">
-        <img src="./assets/2024/iedcbgremoved-whiteText.png" alt="IEDC Logo" />
-        <div class="loader-container">
-            <div class="loader"></div>
-            <p class="loading-text"></p>
-        </div>
+      <img src="./assets/2024/iedcbgremoved-whiteText.png" alt="IEDC Logo" />
+      <div class="loader-container">
+        <div class="loader"></div>
+        <p class="loading-text"></p>
+      </div>
     </div>
 
     <div class="logo-container">
-        <img src="./assets/2024/AVV-Kochi-Logo-New.png" alt="Amrita Vishwa Vidhyapeetham Kochi Logo" />
+      <img
+        src="./assets/2024/AVV-Kochi-Logo-New.png"
+        alt="Amrita Vishwa Vidhyapeetham Kochi Logo"
+      />
     </div>
 
-    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"></button>
+    <button
+      id="themeToggle"
+      class="theme-toggle"
+      aria-label="Toggle theme"
+    ></button>
 
-    <button class="hamburger-button" id="hamburgerButton" aria-label="Toggle navigation menu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+    <button
+      class="hamburger-button"
+      id="hamburgerButton"
+      aria-label="Toggle navigation menu"
+    >
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
     </button>
 
     <nav class="nav-menu" id="navMenu">
-        <ul id="menuList">
-            </ul>
+      <ul id="menuList"></ul>
     </nav>
 
-    <div id="main-content" class="main-content"> 
-        <div class="hero-left">
-            <h1>Ignite Innovation with <br><span class="gradient-text">INNOVATION AND ENTREPRENEURSHIP DEVELOPMENT CENTRE</span></h1>
-            <p class="amrita-text">AMRITA VISHWA VIDHYAPEETHAM KOCHI</p>
-            <button class="cta-button">JOIN TODAY!</button>
+    <div id="main-content" class="main-content">
+      <div class="hero-left">
+        <h1>
+          Ignite Innovation with <br /><span class="gradient-text"
+            >INNOVATION AND ENTREPRENEURSHIP DEVELOPMENT CENTRE</span
+          >
+        </h1>
+        <p class="amrita-text">AMRITA VISHWA VIDHYAPEETHAM KOCHI</p>
+        <button class="cta-button">JOIN TODAY!</button>
+      </div>
+
+      <div class="hero-right">
+        <div class="image-container" id="image-container">
+          <img
+            class="hero-image"
+            src="./assets/2024/iedcbgremoved-whiteText.png"
+            alt="IEDC Innovation Core"
+          />
         </div>
-        
-        <div class="hero-right">
-            <div class="image-container" id="image-container">
-                 <img class="hero-image" src="./assets/2024/iedcbgremoved-whiteText.png" alt="IEDC Innovation Core" />
-            </div>
-        </div>
+      </div>
     </div>
 
-    
+    <section
+      id="about-section"
+      class="generic-section"
+      style="min-height: 300px"
+    >
+      <h2 class="text-3xl font-bold text-center mb-2">
+        About <span class="gradient-text">IEDC</span>
+      </h2>
+      <p class="gradient-subtitle">Discover Our Mission & Vision</p>
+      <p
+        style="
+          color: var(--text-secondary);
+          max-width: 700px;
+          margin: 0 auto 20px auto;
+          line-height: 1.7;
+        "
+      >
+        The Innovation and Entrepreneurship Development Centre (IEDC) at Amrita
+        Vishwa Vidyapeetham Kochi is a dynamic hub designed to cultivate and
+        empower the next generation of innovators and entrepreneurs. We provide
+        a state-of-the-art ecosystem where students can transform groundbreaking
+        ideas into tangible projects and viable startups.
+      </p>
+      <p
+        style="
+          color: var(--text-secondary);
+          max-width: 700px;
+          margin: 0 auto 20px auto;
+          line-height: 1.7;
+        "
+      >
+        Our mission is to foster a culture of creativity, problem-solving, and
+        risk-taking. Through mentorship, workshops, access to resources, and
+        collaborative spaces, IEDC equips aspiring minds with the tools and
+        knowledge needed to navigate the complexities of the modern tech and
+        business landscape. We are building a future where innovation knows no
+        bounds.
+      </p>
 
-    <section id="about-section" class="generic-section" style="min-height: 300px; ">
-        <h2 class="text-3xl font-bold text-center mb-2">About <span class="gradient-text">IEDC</span></h2>
-        <p class="gradient-subtitle">Discover Our Mission & Vision</p> 
-        <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">
-            The Innovation and Entrepreneurship Development Centre (IEDC) at Amrita Vishwa Vidyapeetham Kochi is a dynamic hub designed to cultivate and empower the next generation of innovators and entrepreneurs. We provide a state-of-the-art ecosystem where students can transform groundbreaking ideas into tangible projects and viable startups.
-        </p>
-        <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">
-            Our mission is to foster a culture of creativity, problem-solving, and risk-taking. Through mentorship, workshops, access to resources, and collaborative spaces, IEDC equips aspiring minds with the tools and knowledge needed to navigate the complexities of the modern tech and business landscape. We are building a future where innovation knows no bounds.
-        </p>
-
-        <div class="about-pillars" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 40px;">
-            <div class="pillar-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 25px; text-align: center; max-width: 280px; transition: all 0.3s ease; cursor: pointer;">
-                <div class="icon" style="font-size: 3em; margin-bottom: 15px;">💡</div> 
-                <h3 style="font-family: 'Quantico', sans-serif; font-size: 1.5em; color: var(--accent-primary); margin-bottom: 10px;">Idea Incubation</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9em; line-height: 1.6;">Providing structured programs and resources to nurture nascent ideas from concept to prototype.</p>
-            </div>
-            <div class="pillar-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 25px; text-align: center; max-width: 280px; transition: all 0.3s ease; cursor: pointer;">
-                <div class="icon" style="font-size: 3em; margin-bottom: 15px;">🚀</div>
-                <h3 style="font-family: 'Quantico', sans-serif; font-size: 1.5em; color: var(--accent-primary); margin-bottom: 10px;">Startup Launchpad</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9em; line-height: 1.6;">Supporting promising ventures with mentorship, networking, and seed funding opportunities to go live.</p>
-            </div>
-            <div class="pillar-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 25px; text-align: center; max-width: 280px; transition: all 0.3s ease; cursor: pointer;">
-                <div class="icon" style="font-size: 3em; margin-bottom: 15px;">🧠</div>
-                <h3 style="font-family: 'Quantico', sans-serif; font-size: 1.5em; color: var(--accent-primary); margin-bottom: 10px;">Skill Development</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9em; line-height: 1.6;">Offering workshops, hackathons, and training in cutting-edge technologies and entrepreneurial skills.</p>
-            </div>
-            <div class="pillar-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 25px; text-align: center; max-width: 280px; transition: all 0.3s ease; cursor: pointer;">
-                <div class="icon" style="font-size: 3em; margin-bottom: 15px;">🤝</div>
-                <h3 style="font-family: 'Quantico', sans-serif; font-size: 1.5em; color: var(--accent-primary); margin-bottom: 10px;">Community & Networking</h3>
-                <p style="color: var(--text-secondary); font-size: 0.9em; line-height: 1.6;">Connecting innovators with industry experts, investors, and a vibrant peer network for collaboration.</p>
-            </div>
+      <div
+        class="about-pillars"
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          margin-top: 40px;
+        "
+      >
+        <div
+          class="pillar-card"
+          style="
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            max-width: 280px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+          "
+        >
+          <div class="icon" style="font-size: 3em; margin-bottom: 15px">💡</div>
+          <h3
+            style="
+              font-family: 'Quantico', sans-serif;
+              font-size: 1.5em;
+              color: var(--accent-primary);
+              margin-bottom: 10px;
+            "
+          >
+            Idea Incubation
+          </h3>
+          <p
+            style="
+              color: var(--text-secondary);
+              font-size: 0.9em;
+              line-height: 1.6;
+            "
+          >
+            Providing structured programs and resources to nurture nascent ideas
+            from concept to prototype.
+          </p>
         </div>
+        <div
+          class="pillar-card"
+          style="
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            max-width: 280px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+          "
+        >
+          <div class="icon" style="font-size: 3em; margin-bottom: 15px">🚀</div>
+          <h3
+            style="
+              font-family: 'Quantico', sans-serif;
+              font-size: 1.5em;
+              color: var(--accent-primary);
+              margin-bottom: 10px;
+            "
+          >
+            Startup Launchpad
+          </h3>
+          <p
+            style="
+              color: var(--text-secondary);
+              font-size: 0.9em;
+              line-height: 1.6;
+            "
+          >
+            Supporting promising ventures with mentorship, networking, and seed
+            funding opportunities to go live.
+          </p>
+        </div>
+        <div
+          class="pillar-card"
+          style="
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            max-width: 280px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+          "
+        >
+          <div class="icon" style="font-size: 3em; margin-bottom: 15px">🧠</div>
+          <h3
+            style="
+              font-family: 'Quantico', sans-serif;
+              font-size: 1.5em;
+              color: var(--accent-primary);
+              margin-bottom: 10px;
+            "
+          >
+            Skill Development
+          </h3>
+          <p
+            style="
+              color: var(--text-secondary);
+              font-size: 0.9em;
+              line-height: 1.6;
+            "
+          >
+            Offering workshops, hackathons, and training in cutting-edge
+            technologies and entrepreneurial skills.
+          </p>
+        </div>
+        <div
+          class="pillar-card"
+          style="
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            max-width: 280px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+          "
+        >
+          <div class="icon" style="font-size: 3em; margin-bottom: 15px">🤝</div>
+          <h3
+            style="
+              font-family: 'Quantico', sans-serif;
+              font-size: 1.5em;
+              color: var(--accent-primary);
+              margin-bottom: 10px;
+            "
+          >
+            Community & Networking
+          </h3>
+          <p
+            style="
+              color: var(--text-secondary);
+              font-size: 0.9em;
+              line-height: 1.6;
+            "
+          >
+            Connecting innovators with industry experts, investors, and a
+            vibrant peer network for collaboration.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <section id="youtube-video-section" class="generic-section" style="min-height: 300px;">
-        <h2 class="text-3xl font-bold text-center mb-2">Featured <span class="gradient-text">Video</span></h2>
-        <p class="gradient-subtitle">Kerala Startup Mission - Whiteboard</p>
-        <div style="display: flex; justify-content: center; margin-top: 40px;">
-            <iframe 
-                width="800" 
-                height="450" 
-                src="https://www.youtube.com/embed/0" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen
-                style="border-radius: 10px; box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);"
-            ></iframe>
-        </div>
-        <p style="color: var(--text-secondary); max-width: 800px; margin: 20px auto 0 auto; line-height: 1.7;">
-            This video from Kerala Start-Up Mission (KSUM) was published on 2017-09-20 and has 8705 views and 160 likes.
-        </p>
+    <section
+      id="youtube-video-section"
+      class="generic-section"
+      style="min-height: 300px"
+    >
+      <h2 class="text-3xl font-bold text-center mb-2">
+        Featured <span class="gradient-text">Video</span>
+      </h2>
+      <p class="gradient-subtitle">Kerala Startup Mission - Whiteboard</p>
+      <div style="display: flex; justify-content: center; margin-top: 40px">
+     <a href="https://youtu.be/QnSAMSZ7y00" target="_blank">
+  <img src="https://img.youtube.com/vi/QnSAMSZ7y00/hqdefault.jpg" 
+       alt="Watch on YouTube"
+       style="width:800px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.5);" />
+</a>
+
+      </div>
+      <p
+        style="
+          color: var(--text-secondary);
+          max-width: 800px;
+          margin: 20px auto 0 auto;
+          line-height: 1.7;
+        "
+      >
+        This video from Kerala Start-Up Mission (KSUM) was published on
+        2017-09-20 and has 8705 views and 160 likes.
+      </p>
     </section>
 
-
-    <section id="savishkaara-section" class="generic-section" style="min-height: 300px;">
-        <div class="savishkaara-content">
-             <h2 class="text-3xl font-bold text-center mb-2">About <span class="gradient-text">Savishkaara</span></h2>
-            <p class="gradient-subtitle">Our Flagship Innovation Contest</p>
-            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">The Annual Tech Fest at Amrita Vishwa Vidyapeetham, Kochi is a premier event organized by the Department of Computer Science & Information Technology in collaboration with the <b>Computer Society of India (CSI)</b>, <b>Innovation and Entrepreneurship Development Centre (IEDC)</b>, <b>Software Innovators' Club (SIC)</b>, and <b>Institution's Innovation Council (IIC)</b>.</p>
-            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">This fest brings together students, industry experts, and innovators to showcase cutting-edge technology and ideas. The event fosters creativity, innovation, and collaboration, serving as a platform for participants to explore advancements in the tech world.</p>
-
-            <div class="savishkaara-main-logo">
-                <img src="./assets/2024/savishkaara.png" alt="Savishkaara Main Logo">
-            </div>
-
-            <div class="savishkaara-logos">
-                <div class="savishkaara-sub-logo">
-                    <img src="./assets/2024/iedcwhite.png" alt="IEDC Sub Logo">
-                </div>
-                <div class="savishkaara-sub-logo">
-                    <img src="./assets/2024/SIC Logo.png" alt="SIC Logo">
-                </div>
-                <div class="savishkaara-sub-logo">
-                    <img src="./assets/2024/IIC-removebg-preview-Increasedcolor.png" alt="IIC Logo">
-                </div>
-                <div class="savishkaara-sub-logo">
-                    <img src="./assets/2024/CSIlogo.png" alt="CSI Department Logo">
-                </div>
-            </div>
-        </div>
-    </section>
-
-     <section id="team" class="generic-section" style="min-height: 300px; ">
-        <h2 class="text-3xl font-bold text-center mb-2">Our <span class="gradient-text">Team</span></h2>
-        <p class="gradient-subtitle">Meet the Driving Force</p>
-        
-        <h3 class="text-2xl font-bold text-center mb-8" style="color: var(--text-primary); margin-top: 50px;">Faculty Coordinators</h3>
-        <div class="team-card-container">
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Faculty Coordinator 1 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Faculty+1';">
-                <h3>Dr. A. B. Kumar</h3>
-                <p>Assistant Professor, Dept. of CSE</p>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/dr-a-b-kumar/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Faculty Coordinator 2 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Faculty+2';">
-                <h3>Dr. R. Singh</h3>
-                <p>Associate Professor, Dept. of ECE</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <h3 class="text-2xl font-bold text-center mb-8" style="color: var(--text-primary); margin-top: 80px;">Student Core Team</h3>
-        <div class="team-card-container">
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 1 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+1';">
-                <h3>Alice Johnson</h3>
-                <p>Lead Innovator</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 2 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+2';">
-                <h3>Bob Williams</h3>
-                <p>Marketing Head</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-             <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 3 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+3';">
-                <h3>Charlie Brown</h3>
-                <p>Technical Lead</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-             <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 4 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+4';">
-                <h3>Diana Prince</h3>
-                <p>Events Coordinator</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 5 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+5';">
-                <h3>Ethan Hunt</h3>
-                <p>Web Developer</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 6 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+6';">
-                <h3>Fiona Gallagher</h3>
-                <p>Design Lead</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 7 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+7';">
-                <h3>George Costanza</h3>
-                <p>Outreach Specialist</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 8 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+8';">
-                <h3>Hannah Baker</h3>
-                <p>Content Creator</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 9 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+9';">
-                <h3>Ian Malcolm</h3>
-                <p>Research & Development</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 10 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+10';">
-                <h3>Jessica Day</h3>
-                <p>Finance & Sponsorship</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="./assets/NANU.jpg" alt="Team Member 11 Image" onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+11';">
-                <h3>Kevin Malone</h3>
-                <p>Logistics Manager</p>
-                <div class="social-links">
-                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="highlights-carousel-section-v2" class="generic-section"> 
-        <h2 class="text-3xl font-bold text-center mb-2"> 
-            Event <span class="gradient-text">Highlights</span> 
+    <section
+      id="savishkaara-section"
+      class="generic-section"
+      style="min-height: 300px"
+    >
+      <div class="savishkaara-content">
+        <h2 class="text-3xl font-bold text-center mb-2">
+          About <span class="gradient-text">Savishkaara</span>
         </h2>
-        <p class="text-lg text-center mb-10"> 
-            A dynamic showcase of our memorable moments.
+        <p class="gradient-subtitle">Our Flagship Innovation Contest</p>
+        <p
+          style="
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+            line-height: 1.7;
+          "
+        >
+          The Annual Tech Fest at Amrita Vishwa Vidyapeetham, Kochi is a premier
+          event organized by the Department of Computer Science & Information
+          Technology in collaboration with the
+          <b>Computer Society of India (CSI)</b>,
+          <b>Innovation and Entrepreneurship Development Centre (IEDC)</b>,
+          <b>Software Innovators' Club (SIC)</b>, and
+          <b>Institution's Innovation Council (IIC)</b>.
+        </p>
+        <p
+          style="
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+            line-height: 1.7;
+          "
+        >
+          This fest brings together students, industry experts, and innovators
+          to showcase cutting-edge technology and ideas. The event fosters
+          creativity, innovation, and collaboration, serving as a platform for
+          participants to explore advancements in the tech world.
         </p>
 
-        <div class="carousel-wrapper relative w-full h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center">
-            <div id="carouselV2Container" class="relative w-full h-full flex items-center justify-center">
-                </div>
+        <div class="savishkaara-main-logo">
+          <img
+            src="./assets/2024/savishkaara.png"
+            alt="Savishkaara Main Logo"
+          />
         </div>
 
-        <div class="flex justify-center mt-8 space-x-4">
-            <button id="prevButtonV2" class="carousel-nav-button" aria-label="Previous slide">
-                ❮ 
-            </button>
-            <button id="nextButtonV2" class="carousel-nav-button" aria-label="Next slide">
-                ❯ 
-            </button>
+        <div class="savishkaara-logos">
+          <div class="savishkaara-sub-logo">
+            <img src="./assets/2024/iedcwhite.png" alt="IEDC Sub Logo" />
+          </div>
+          <div class="savishkaara-sub-logo">
+            <img src="./assets/2024/SIC Logo.png" alt="SIC Logo" />
+          </div>
+          <div class="savishkaara-sub-logo">
+            <img
+              src="./assets/2024/IIC-removebg-preview-Increasedcolor.png"
+              alt="IIC Logo"
+            />
+          </div>
+          <div class="savishkaara-sub-logo">
+            <img src="./assets/2024/CSIlogo.png" alt="CSI Department Logo" />
+          </div>
         </div>
+      </div>
     </section>
 
-     <section id="events" class="generic-section" style="min-height: 300px;">
-        <h2 class="text-3xl font-bold text-center mb-2">Upcoming <span class="gradient-text">Events</span></h2>
-        <p class="gradient-subtitle">Join Our Next Workshop or Talk</p>
-        <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">
-            Content for Events section goes here. Calendar of upcoming activities...
-        </p>
+    <section id="team" class="generic-section" style="min-height: 300px">
+      <h2 class="text-3xl font-bold text-center mb-2">
+        Our <span class="gradient-text">Team</span>
+      </h2>
+      <p class="gradient-subtitle">Meet the Driving Force</p>
+
+      <h3
+        class="text-2xl font-bold text-center mb-8"
+        style="color: var(--text-primary); margin-top: 50px"
+      >
+        Faculty Coordinators
+      </h3>
+      <div class="team-card-container">
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Faculty Coordinator 1 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Faculty+1';"
+          />
+          <h3>Dr. A. B. Kumar</h3>
+          <p>Assistant Professor, Dept. of CSE</p>
+          <div class="social-links">
+            <a
+              href="https://www.linkedin.com/in/dr-a-b-kumar/"
+              target="_blank"
+              aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Faculty Coordinator 2 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Faculty+2';"
+          />
+          <h3>Dr. R. Singh</h3>
+          <p>Associate Professor, Dept. of ECE</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+
+      <h3
+        class="text-2xl font-bold text-center mb-8"
+        style="color: var(--text-primary); margin-top: 80px"
+      >
+        Student Core Team
+      </h3>
+      <div class="team-card-container">
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 1 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+1';"
+          />
+          <h3>Alice Johnson</h3>
+          <p>Lead Innovator</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 2 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+2';"
+          />
+          <h3>Bob Williams</h3>
+          <p>Marketing Head</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 3 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+3';"
+          />
+          <h3>Charlie Brown</h3>
+          <p>Technical Lead</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 4 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+4';"
+          />
+          <h3>Diana Prince</h3>
+          <p>Events Coordinator</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 5 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+5';"
+          />
+          <h3>Ethan Hunt</h3>
+          <p>Web Developer</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 6 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+6';"
+          />
+          <h3>Fiona Gallagher</h3>
+          <p>Design Lead</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 7 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+7';"
+          />
+          <h3>George Costanza</h3>
+          <p>Outreach Specialist</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 8 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+8';"
+          />
+          <h3>Hannah Baker</h3>
+          <p>Content Creator</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 9 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+9';"
+          />
+          <h3>Ian Malcolm</h3>
+          <p>Research & Development</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="GitHub"
+              ><i class="fab fa-github"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 10 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+10';"
+          />
+          <h3>Jessica Day</h3>
+          <p>Finance & Sponsorship</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="team-card">
+          <img
+            src="./assets/NANU.jpg"
+            alt="Team Member 11 Image"
+            onerror="this.src='https://placehold.co/120x120/1a1a1a/e6e6e6?text=Member+11';"
+          />
+          <h3>Kevin Malone</h3>
+          <p>Logistics Manager</p>
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+      </div>
     </section>
 
-     <section id="resources" class="generic-section" style="min-height: 300px; ">
-        <h2 class="text-3xl font-bold text-center mb-2">Valuable <span class="gradient-text">Resources</span></h2>
-        <p class="gradient-subtitle">Tools & Guides for Innovators</p>
-        <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px auto; line-height: 1.7;">
-            Content for Resources section goes here. Links to articles, toolkits, and more...
-        </p>
+    <section id="highlights-carousel-section-v2" class="generic-section">
+      <h2 class="text-3xl font-bold text-center mb-2">
+        Event <span class="gradient-text">Highlights</span>
+      </h2>
+      <p class="text-lg text-center mb-10">
+        A dynamic showcase of our memorable moments.
+      </p>
+
+      <div
+        class="carousel-wrapper relative w-full h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center"
+      >
+        <div
+          id="carouselV2Container"
+          class="relative w-full h-full flex items-center justify-center"
+        ></div>
+      </div>
+
+      <div class="flex justify-center mt-8 space-x-4">
+        <button
+          id="prevButtonV2"
+          class="carousel-nav-button"
+          aria-label="Previous slide"
+        >
+          ❮
+        </button>
+        <button
+          id="nextButtonV2"
+          class="carousel-nav-button"
+          aria-label="Next slide"
+        >
+          ❯
+        </button>
+      </div>
     </section>
-    
+
+    <section id="events" class="generic-section" style="min-height: 300px">
+      <h2 class="text-3xl font-bold text-center mb-2">
+        Upcoming <span class="gradient-text">Events</span>
+      </h2>
+      <p class="gradient-subtitle">Join Our Next Workshop or Talk</p>
+      <p
+        style="
+          color: var(--text-secondary);
+          max-width: 700px;
+          margin: 0 auto 20px auto;
+          line-height: 1.7;
+        "
+      >
+        Content for Events section goes here. Calendar of upcoming activities...
+      </p>
+    </section>
+
+    <section id="resources" class="generic-section" style="min-height: 300px">
+      <h2 class="text-3xl font-bold text-center mb-2">
+        Valuable <span class="gradient-text">Resources</span>
+      </h2>
+      <p class="gradient-subtitle">Tools & Guides for Innovators</p>
+      <p
+        style="
+          color: var(--text-secondary);
+          max-width: 700px;
+          margin: 0 auto 20px auto;
+          line-height: 1.7;
+        "
+      >
+        Content for Resources section goes here. Links to articles, toolkits,
+        and more...
+      </p>
+    </section>
+
     <script>
-        // Preloader Logic
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            const mainContent = document.getElementById('main-content');
+      // Preloader Logic
+      window.addEventListener("load", () => {
+        const preloader = document.getElementById("preloader");
+        const mainContent = document.getElementById("main-content");
 
-            setTimeout(() => {
-                if (preloader) preloader.classList.add('hidden');
-                setTimeout(() => {
-                    if (mainContent) mainContent.classList.add('visible');
-                }, 500); 
-            }, 1500); 
+        setTimeout(() => {
+          if (preloader) preloader.classList.add("hidden");
+          setTimeout(() => {
+            if (mainContent) mainContent.classList.add("visible");
+          }, 500);
+        }, 1500);
+      });
+
+      // Hero Image Hover Effect
+      const imageContainer = document.getElementById("image-container");
+      if (imageContainer) {
+        imageContainer.addEventListener("mouseenter", () => {
+          // Keep floating animation
         });
+        imageContainer.addEventListener("mouseleave", () => {
+          // Keep floating animation
+        });
+      }
 
-        // Hero Image Hover Effect
-        const imageContainer = document.getElementById('image-container');
-        if (imageContainer) {
-            imageContainer.addEventListener('mouseenter', () => {
-                // Keep floating animation
-            });
-            imageContainer.addEventListener('mouseleave', () => {
-                // Keep floating animation
-            });
-        }
+      // Theme Toggle Logic
+      const themeToggle = document.getElementById("themeToggle");
+      const body = document.body;
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        body.classList.add(savedTheme);
+      } else {
+        body.classList.add("dark-theme");
+        localStorage.setItem("theme", "dark-theme");
+      }
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          if (body.classList.contains("light-theme")) {
+            body.classList.remove("light-theme");
+            body.classList.add("dark-theme");
+            localStorage.setItem("theme", "dark-theme");
+          } else {
+            body.classList.remove("dark-theme");
+            body.classList.add("light-theme");
+            localStorage.setItem("theme", "light-theme");
+          }
+        });
+      }
 
-        // Theme Toggle Logic
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            body.classList.add(savedTheme);
-        } else {
-            body.classList.add('dark-theme'); 
-            localStorage.setItem('theme', 'dark-theme');
-        }
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                if (body.classList.contains('light-theme')) {
-                    body.classList.remove('light-theme');
-                    body.classList.add('dark-theme');
-                    localStorage.setItem('theme', 'dark-theme');
-                } else {
-                    body.classList.remove('dark-theme');
-                    body.classList.add('light-theme');
-                    localStorage.setItem('theme', 'light-theme');
-                }
-            });
-        }
+      // Dynamic Menu Content & Hamburger Menu Logic
+      const hamburgerButton = document.getElementById("hamburgerButton");
+      const navMenu = document.getElementById("navMenu");
+      const menuList = document.getElementById("menuList");
 
-        // Dynamic Menu Content & Hamburger Menu Logic
-        const hamburgerButton = document.getElementById('hamburgerButton');
-        const navMenu = document.getElementById('navMenu');
-        const menuList = document.getElementById('menuList');
+      const menuItemsData = [
+        { text: "HOME", href: "#main-content" },
+        { text: "HIGHLIGHTS", href: "#highlights-carousel-section-v2" },
+        { text: "ABOUT", href: "#about-section" },
+        { text: "YOUTUBE VIDEO", href: "#youtube-video-section" },
+        { text: "SAVISHKAARA", href: "#savishkaara-section" },
+        { text: "TEAM", href: "#team" },
+        { text: "EVENTS", href: "#events" },
+        { text: "RESOURCES", href: "#resources" },
+      ];
 
-        const menuItemsData = [
-            { text: "HOME", href: "#main-content" },
-            { text: "HIGHLIGHTS", href: "#highlights-carousel-section-v2"}, 
-            { text: "ABOUT", href: "#about-section" },
-            { text: "YOUTUBE VIDEO", href: "#youtube-video-section" },
-            { text: "SAVISHKAARA", href: "#savishkaara-section" },
-            { text: "TEAM", href: "#team" },
-            { text: "EVENTS", href: "#events" },
-            { text: "RESOURCES", href: "#resources" }
-        ];
+      function createMenuItems() {
+        if (!menuList) return;
+        menuList.innerHTML = "";
+        menuItemsData.forEach((item) => {
+          const listItem = document.createElement("li");
+          const anchor = document.createElement("a");
+          anchor.href = item.href;
+          anchor.textContent = item.text;
+          listItem.appendChild(anchor);
+          menuList.appendChild(listItem);
 
-        function createMenuItems() {
-            if (!menuList) return;
-            menuList.innerHTML = '';
-            menuItemsData.forEach((item) => {
-                const listItem = document.createElement('li');
-                const anchor = document.createElement('a');
-                anchor.href = item.href;
-                anchor.textContent = item.text;
-                listItem.appendChild(anchor);
-                menuList.appendChild(listItem);
+          anchor.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetId = item.href.substring(1);
+            const targetSection = document.getElementById(targetId);
 
-                anchor.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    const targetId = item.href.substring(1); 
-                    const targetSection = document.getElementById(targetId);
-                    
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        console.warn(`Target section "${item.href}" not found.`);
-                    }
+            if (targetSection) {
+              targetSection.scrollIntoView({ behavior: "smooth" });
+            } else {
+              console.warn(`Target section "${item.href}" not found.`);
+            }
 
-                    if (hamburgerButton) hamburgerButton.classList.remove('open');
-                    if (navMenu) navMenu.classList.remove('open');
-                    document.body.style.overflow = ''; 
-                });
-            });
-        }
-        createMenuItems();
+            if (hamburgerButton) hamburgerButton.classList.remove("open");
+            if (navMenu) navMenu.classList.remove("open");
+            document.body.style.overflow = "";
+          });
+        });
+      }
+      createMenuItems();
 
-        if (hamburgerButton && navMenu) {
-            hamburgerButton.addEventListener('click', () => {
-                hamburgerButton.classList.toggle('open');
-                navMenu.classList.toggle('open');
-                if (navMenu.classList.contains('open')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            });
-        }
+      if (hamburgerButton && navMenu) {
+        hamburgerButton.addEventListener("click", () => {
+          hamburgerButton.classList.toggle("open");
+          navMenu.classList.toggle("open");
+          if (navMenu.classList.contains("open")) {
+            document.body.style.overflow = "hidden";
+          } else {
+            document.body.style.overflow = "";
+          }
+        });
+      }
 
-        // Intersection Observer for section animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15 
+      // Intersection Observer for section animations
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15,
+      };
+
+      const sectionObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const sectionsToObserve = document.querySelectorAll(
+          ".main-content, .generic-section"
+        );
+        sectionsToObserve.forEach((section) => {
+          if (section) sectionObserver.observe(section);
+        });
+      });
+
+      // --- Carousel Logic (for highlights-carousel-section-v2) ---
+      const eventData = [
+        {
+          imgSrc: "./assets/Hackathon.png",
+          altText: "Tech Conference 2024",
+          title: "Tech Conference 2024",
+          description:
+            "Annual gathering of tech enthusiasts and professionals.",
+        },
+        {
+          imgSrc: "./assets/ai workshop 2025 (1) (1) (1).png",
+          altText: "Music Festival Vibes",
+          title: "Music Festival Vibes",
+          description: "Unforgettable performances under the stars.",
+        },
+        {
+          imgSrc:
+            "https://placehold.co/600x400/22c55e/ffffff?text=Art+Exhibition+Opening",
+          altText: "Art Exhibition Opening",
+          title: "Art Exhibition Opening",
+          description: "Showcasing groundbreaking contemporary art.",
+        },
+        {
+          imgSrc:
+            "https://placehold.co/600x400/f97316/ffffff?text=Community+Workshop",
+          altText: "Community Workshop",
+          title: "Community Workshop",
+          description: "Learning and growing together as a community.",
+        },
+        {
+          imgSrc:
+            "https://placehold.co/600x400/06b6d4/ffffff?text=Product+Launch+Event",
+          altText: "Product Launch Event",
+          title: "Product Launch Event",
+          description: "Unveiling our latest innovative product.",
+        },
+        {
+          imgSrc:
+            "https://placehold.co/600x400/8b5cf6/ffffff?text=Charity+Gala+Night",
+          altText: "Charity Gala Night",
+          title: "Charity Gala Night",
+          description: "An elegant evening for a noble cause.",
+        },
+      ];
+
+      const carouselContainer = document.getElementById("carouselV2Container");
+      const prevButton = document.getElementById("prevButtonV2");
+      const nextButton = document.getElementById("nextButtonV2");
+      let currentIndex = 0;
+      let items = [];
+
+      function createCarouselItem(itemData, index) {
+        const itemDiv = document.createElement("div");
+        itemDiv.className =
+          "carousel-item absolute w-4/5 h-4/5 sm:w-3/5 sm:h-5/6 md:w-1/2 md:h=full shadow-xl rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700";
+
+        const img = document.createElement("img");
+        img.src = itemData.imgSrc;
+        img.alt = itemData.altText;
+        img.onerror = function () {
+          this.src =
+            "https://placehold.co/600x400/cbd5e1/475569?text=Image+Not+Found";
         };
 
-        const sectionObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+        const captionDiv = document.createElement("div");
+        captionDiv.className =
+          "absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 via-black/50 to-transparent text-white rounded-b-xl";
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const sectionsToObserve = document.querySelectorAll('.main-content, .generic-section'); 
-            sectionsToObserve.forEach(section => {
-                if (section) sectionObserver.observe(section);
-            });
+        const titleH3 = document.createElement("h3");
+        titleH3.className = "font-semibold text-md sm:text-lg truncate";
+        titleH3.textContent = itemData.title;
+
+        const descriptionP = document.createElement("p");
+        descriptionP.className = "text-xs sm:text-sm truncate";
+        descriptionP.textContent = itemData.description;
+
+        captionDiv.appendChild(titleH3);
+        captionDiv.appendChild(descriptionP);
+        itemDiv.appendChild(img);
+        itemDiv.appendChild(captionDiv);
+
+        return itemDiv;
+      }
+
+      function updateCarousel() {
+        if (!items || items.length === 0) return;
+        items.forEach((item, i) => {
+          item.classList.remove(
+            "active",
+            "prev",
+            "next",
+            "prev-2",
+            "next-2",
+            "hide-left",
+            "hide-right"
+          );
+
+          if (i === currentIndex) {
+            item.classList.add("active");
+          } else if (i === (currentIndex - 1 + items.length) % items.length) {
+            item.classList.add("prev");
+          } else if (i === (currentIndex - 2 + items.length) % items.length) {
+            item.classList.add("prev-2");
+          } else if (i === (currentIndex + 1) % items.length) {
+            item.classList.add("next");
+          } else if (i === (currentIndex + 2) % items.length) {
+            item.classList.add("next-2");
+          } else if (
+            i < currentIndex - 2 ||
+            (currentIndex < 2 &&
+              i > currentIndex + 2 &&
+              i > items.length - (3 - currentIndex))
+          ) {
+            item.classList.add("hide-left");
+          } else {
+            item.classList.add("hide-right");
+          }
+        });
+      }
+
+      function initializeCarousel() {
+        if (!carouselContainer) {
+          console.error("Carousel container (carouselV2Container) not found!");
+          return;
+        }
+        carouselContainer.innerHTML = "";
+        items = eventData.map((data, index) => {
+          const itemElement = createCarouselItem(data, index);
+          carouselContainer.appendChild(itemElement);
+          return itemElement;
         });
 
-        // --- Carousel Logic (for highlights-carousel-section-v2) ---
-        const eventData = [
-            {
-                imgSrc: "./assets/Hackathon.png",
-                altText: "Tech Conference 2024",
-                title: "Tech Conference 2024",
-                description: "Annual gathering of tech enthusiasts and professionals."
-            },
-            {
-                imgSrc: "./assets/ai workshop 2025 (1) (1) (1).png",
-                altText: "Music Festival Vibes",
-                title: "Music Festival Vibes",
-                description: "Unforgettable performances under the stars."
-            },
-            {
-                imgSrc: "https://placehold.co/600x400/22c55e/ffffff?text=Art+Exhibition+Opening",
-                altText: "Art Exhibition Opening",
-                title: "Art Exhibition Opening",
-                description: "Showcasing groundbreaking contemporary art."
-            },
-            {
-                imgSrc: "https://placehold.co/600x400/f97316/ffffff?text=Community+Workshop",
-                altText: "Community Workshop",
-                title: "Community Workshop",
-                description: "Learning and growing together as a community."
-            },
-                {
-                imgSrc: "https://placehold.co/600x400/06b6d4/ffffff?text=Product+Launch+Event",
-                altText: "Product Launch Event",
-                title: "Product Launch Event",
-                description: "Unveiling our latest innovative product."
-            },
-            {
-                imgSrc: "https://placehold.co/600x400/8b5cf6/ffffff?text=Charity+Gala+Night",
-                altText: "Charity Gala Night",
-                title: "Charity Gala Night",
-                description: "An elegant evening for a noble cause."
-            }
-        ];
-
-        const carouselContainer = document.getElementById('carouselV2Container');
-        const prevButton = document.getElementById('prevButtonV2');
-        const nextButton = document.getElementById('nextButtonV2');
-        let currentIndex = 0;
-        let items = [];
-
-        function createCarouselItem(itemData, index) {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'carousel-item absolute w-4/5 h-4/5 sm:w-3/5 sm:h-5/6 md:w-1/2 md:h=full shadow-xl rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700'; 
-
-            const img = document.createElement('img');
-            img.src = itemData.imgSrc;
-            img.alt = itemData.altText;
-            img.onerror = function() { this.src = 'https://placehold.co/600x400/cbd5e1/475569?text=Image+Not+Found'; }; 
-            
-            const captionDiv = document.createElement('div');
-            captionDiv.className = 'absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 via-black/50 to-transparent text-white rounded-b-xl';
-
-            const titleH3 = document.createElement('h3');
-            titleH3.className = 'font-semibold text-md sm:text-lg truncate'; 
-            titleH3.textContent = itemData.title;
-
-            const descriptionP = document.createElement('p');
-            descriptionP.className = 'text-xs sm:text-sm truncate'; 
-            descriptionP.textContent = itemData.description;
-
-            captionDiv.appendChild(titleH3);
-            captionDiv.appendChild(descriptionP);
-            itemDiv.appendChild(img);
-            itemDiv.appendChild(captionDiv);
-
-            return itemDiv;
+        if (items.length > 0) {
+          currentIndex = Math.floor(items.length / 2);
+          if (items.length < 5) {
+            currentIndex = 0;
+          }
+          updateCarousel();
+        } else {
+          carouselContainer.innerHTML =
+            '<p class="text-gray-500 dark:text-gray-400">No events to display.</p>';
+          if (prevButton) prevButton.style.display = "none";
+          if (nextButton) nextButton.style.display = "none";
         }
+      }
 
-        function updateCarousel() {
-            if (!items || items.length === 0) return;
-            items.forEach((item, i) => {
-                item.classList.remove('active', 'prev', 'next', 'prev-2', 'next-2', 'hide-left', 'hide-right');
-
-                if (i === currentIndex) {
-                    item.classList.add('active');
-                } else if (i === (currentIndex - 1 + items.length) % items.length) {
-                    item.classList.add('prev');
-                } else if (i === (currentIndex - 2 + items.length) % items.length) {
-                     item.classList.add('prev-2');
-                } else if (i === (currentIndex + 1) % items.length) {
-                    item.classList.add('next');
-                } else if (i === (currentIndex + 2) % items.length) {
-                     item.classList.add('next-2');
-                } else if (i < currentIndex - 2 || (currentIndex < 2 && i > currentIndex + 2 && i > items.length - (3-(currentIndex)) ) ) { 
-                    item.classList.add('hide-left');
-                } else { 
-                    item.classList.add('hide-right');
-                }
-            });
-        }
-
-        function initializeCarousel() {
-            if (!carouselContainer) {
-                console.error("Carousel container (carouselV2Container) not found!");
-                return;
-            }
-            carouselContainer.innerHTML = ''; 
-            items = eventData.map((data, index) => {
-                const itemElement = createCarouselItem(data, index);
-                carouselContainer.appendChild(itemElement);
-                return itemElement;
-            });
-
-            if (items.length > 0) {
-                currentIndex = Math.floor(items.length / 2);
-                 if(items.length < 5) { 
-                    currentIndex = 0;
-                 }
-                updateCarousel();
-            } else {
-                carouselContainer.innerHTML = '<p class="text-gray-500 dark:text-gray-400">No events to display.</p>'; 
-                if(prevButton) prevButton.style.display = 'none';
-                if(nextButton) nextButton.style.display = 'none';
-            }
-        }
-
-        if (prevButton && nextButton) {
-            prevButton.addEventListener('click', () => {
-                if (items.length === 0) return;
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-                updateCarousel();
-            });
-
-            nextButton.addEventListener('click', () => {
-                if (items.length === 0) return;
-                currentIndex = (currentIndex + 1) % items.length;
-                updateCarousel();
-            });
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
-                return;
-            }
-            if (items.length === 0 || !carouselContainer || !carouselContainer.closest('.generic-section.visible')) return; 
-
-            if (e.key === 'ArrowLeft') {
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-                updateCarousel();
-            } else if (e.key === 'ArrowRight') {
-                currentIndex = (currentIndex + 1) % items.length;
-                updateCarousel();
-            }
+      if (prevButton && nextButton) {
+        prevButton.addEventListener("click", () => {
+          if (items.length === 0) return;
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateCarousel();
         });
 
-        let touchstartX = 0;
-        let touchendX = 0;
+        nextButton.addEventListener("click", () => {
+          if (items.length === 0) return;
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
+        });
+      }
 
-        function handleGesture() {
-            if (items.length === 0) return;
-            const threshold = 50; 
-            if (touchendX < touchstartX - threshold) { 
-                currentIndex = (currentIndex + 1) % items.length;
-                updateCarousel();
-            }
-            if (touchendX > touchstartX + threshold) { 
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-                updateCarousel();
-            }
+      document.addEventListener("keydown", (e) => {
+        if (
+          document.activeElement &&
+          (document.activeElement.tagName === "INPUT" ||
+            document.activeElement.tagName === "TEXTAREA")
+        ) {
+          return;
         }
+        if (
+          items.length === 0 ||
+          !carouselContainer ||
+          !carouselContainer.closest(".generic-section.visible")
+        )
+          return;
 
-        if (carouselContainer) {
-            carouselContainer.addEventListener('touchstart', e => {
-                touchstartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            carouselContainer.addEventListener('touchend', e => {
-                touchendX = e.changedTouches[0].screenX;
-                handleGesture();
-            }, { passive: true });
+        if (e.key === "ArrowLeft") {
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateCarousel();
+        } else if (e.key === "ArrowRight") {
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
         }
+      });
 
-        document.addEventListener('DOMContentLoaded', initializeCarousel);
+      let touchstartX = 0;
+      let touchendX = 0;
 
+      function handleGesture() {
+        if (items.length === 0) return;
+        const threshold = 50;
+        if (touchendX < touchstartX - threshold) {
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
+        }
+        if (touchendX > touchstartX + threshold) {
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateCarousel();
+        }
+      }
+
+      if (carouselContainer) {
+        carouselContainer.addEventListener(
+          "touchstart",
+          (e) => {
+            touchstartX = e.changedTouches[0].screenX;
+          },
+          { passive: true }
+        );
+
+        carouselContainer.addEventListener(
+          "touchend",
+          (e) => {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesture();
+          },
+          { passive: true }
+        );
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeCarousel);
     </script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
