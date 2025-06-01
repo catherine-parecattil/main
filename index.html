@@ -1238,8 +1238,12 @@
   </head>
   <body class="dark-theme">
     <div id="preloader">
-      <img src="./assets/2024/iedcbgremoved-whiteText.png" alt="IEDC Logo" 
-           onerror="this.src='https://placehold.co/80x80/000000/00e0ff?text=IEDC';"/>
+      <img
+        class="preloader-image" data-dark-src="./assets/2024/iedcbgremoved-whiteText.png"
+        data-light-src="./assets/2024/iedcbulbblack.png"
+        alt="IEDC Logo"
+        onerror="this.src='https://placehold.co/80x80/000000/00e0ff?text=IEDC';"
+      />
       <div class="loader-container">
         <div class="loader"></div>
         <p class="loading-text"></p>
@@ -1289,7 +1293,8 @@
         <div class="image-container" id="image-container">
           <img
             class="hero-image"
-            src="./assets/2024/iedcbgremoved-whiteText.png"
+            data-dark-src="./assets/2024/iedcbgremoved-whiteText.png"
+            data-light-src="./assets/2024/iedcbulbblack.png"
             alt="IEDC Innovation Core"
             onerror="this.src='https://placehold.co/250x250/080808/00e0ff?text=IEDC+CORE';"
           />
@@ -1405,8 +1410,13 @@
 
         <div class="savishkaara-logos">
           <div class="savishkaara-sub-logo">
-            <img src="./assets/2024/iedcwhite.png" alt="IEDC Sub Logo" onerror="this.src='https://placehold.co/120x60/000000/00e0ff?text=IEDC';" />
-          </div>
+            <img
+                data-dark-src="./assets/2024/iedcwhite.png"
+                data-light-src="./assets/2024/iedclogoinstitutional.png"
+                alt="IEDC Sub Logo"
+                onerror="this.src='https://placehold.co/120x60/000000/00e0ff?text=IEDC';"
+            />
+        </div>
           <div class="savishkaara-sub-logo">
             <img src="./assets/2024/SIC Logo.png" alt="SIC Logo" onerror="this.src='https://placehold.co/120x60/000000/ffffff?text=SIC';" />
           </div>
@@ -1677,6 +1687,9 @@
         }
         const textInterval = setInterval(updateLoadingText, 300); 
 
+        // Ensure the preloader image is set correctly before hiding the preloader
+        updateThemeImage(); // Call updateThemeImage here to set the correct preloader image initially
+
         setTimeout(() => {
           clearInterval(textInterval);
           if (preloader) preloader.classList.add("hidden");
@@ -1710,6 +1723,7 @@
           } else {
             localStorage.setItem("theme", "dark-theme");
           }
+          updateThemeImage(); // Update all theme-dependent images on theme change
         });
       }
 
@@ -1758,6 +1772,40 @@
             document.body.style.overflow = "";
           }
         });
+      }
+      
+      // Function to update images based on current theme
+      function updateThemeImage() {
+        const heroImage = document.querySelector(".hero-image");
+        const subLogoImage = document.querySelector(".savishkaara-sub-logo img");
+        const preloaderImage = document.querySelector(".preloader-image"); // Select the preloader image
+
+        // Update hero image
+        if (heroImage && heroImage.dataset.darkSrc && heroImage.dataset.lightSrc) {
+            if (body.classList.contains("light-theme")) {
+                heroImage.src = heroImage.dataset.lightSrc;
+            } else {
+                heroImage.src = heroImage.dataset.darkSrc;
+            }
+        }
+
+        // Update savishkaara sub-logo image
+        if (subLogoImage && subLogoImage.dataset.darkSrc && subLogoImage.dataset.lightSrc) {
+            if (body.classList.contains("light-theme")) {
+                subLogoImage.src = subLogoImage.dataset.lightSrc;
+            } else {
+                subLogoImage.src = subLogoImage.dataset.darkSrc;
+            }
+        }
+
+        // Update preloader image
+        if (preloaderImage && preloaderImage.dataset.darkSrc && preloaderImage.dataset.lightSrc) {
+            if (body.classList.contains("light-theme")) {
+                preloaderImage.src = preloaderImage.dataset.lightSrc;
+            } else {
+                preloaderImage.src = preloaderImage.dataset.darkSrc;
+            }
+        }
       }
 
       // Intersection Observer for section animations
