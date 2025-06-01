@@ -17,10 +17,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
     <style>
       /* Dark Theme Variables (Default) */
       :root {
@@ -247,8 +243,6 @@
       .nav-menu.open ul li:nth-child(5) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.85s; }
       .nav-menu.open ul li:nth-child(6) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.95s; }
       .nav-menu.open ul li:nth-child(7) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.05s; }
-      .nav-menu.open ul li:nth-child(8) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.15s; }
-      .nav-menu.open ul li:nth-child(9) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.25s; }
 
 
       .nav-menu ul li a {
@@ -675,23 +669,38 @@
 
       /* --- YouTube Video Section --- */
       #youtube-video-section .youtube-placeholder-container {
-        max-width: 800px; 
-        width: 100%; 
+        max-width: 800px;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
         border-radius: 10px;
-        overflow: hidden; 
-        box-shadow: 0 4px 20px rgba(0,0,0,.3); 
-      }
-      #youtube-video-section .youtube-placeholder-container img {
-        width: 100%; 
-        height: auto; 
-        display: block; 
-      }
-      #youtube-video-section > p { 
-         margin-top: 15px;
+        overflow: hidden; /* Keeps the corners rounded */
+        box-shadow: 0 4px 20px rgba(0,0,0,.3);
+
+        /* --- Added/Modified for responsive video --- */
+        position: relative;
+        height: 0;
+        padding-bottom: 56.25%; /* Aspect ratio: (315 / 560) * 100% */
       }
 
+      /* --- Added for responsive iframe --- */
+      #youtube-video-section .youtube-placeholder-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0; /* Ensures no iframe border */
+      }
+
+      #youtube-video-section .youtube-placeholder-container img { /* This style is for a placeholder image, if used instead of iframe directly */
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      #youtube-video-section > p {
+        margin-top: 15px;
+      }
 
       /* --- SAVISHKAARA Section --- */
       .savishkaara-content h2 {
@@ -737,15 +746,14 @@
 
 
       /* --- Team Section & About Pillars Section --- */
-      /* Base styles for cards - single column on mobile */
       #team .team-card, 
       .pillar-card {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: 8px;
         padding: 15px;
-        width: 90%; /* MODIFIED: Was 100% for single column */
-        max-width: 350px; /* MODIFIED: Was 320px for single column */
+        width: 90%; 
+        max-width: 350px; 
         margin-left: auto;
         margin-right: auto;
         text-align: center;
@@ -771,7 +779,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px; /* Reduced gap for mobile */
+        gap: 10px; 
         margin-top: 30px;
       }
       
@@ -859,14 +867,20 @@
         border-color: var(--card-hover-border);
       }
       #contact-section .contact-info-item i {
-        font-size: 1.5em; 
+        font-size: 1.5em;
         color: var(--accent-primary);
-        margin-right: 15px; 
-        vertical-align: middle; 
-        width: 25px; 
+        margin-right: 15px;
+        vertical-align: middle;
+        width: 25px;
         text-align: center;
-        flex-shrink: 0; 
-        margin-top: 3px; 
+        flex-shrink: 0;
+        margin-top: 3px;
+        /* --- Add these lines for Font Awesome --- */
+        font-family: 'Font Awesome 6 Free'; /* Or the specific FA font-family */
+        font-weight: 900; /* Required for solid (fas) icons */
+        /* Ensure other Font Awesome base styles like display and font-style are not overridden.
+          Usually, .fas already sets display: inline-block and font-style: normal.
+          The primary issue here is font-family. */
       }
       
       #contact-section .contact-info-item > div {
@@ -990,7 +1004,6 @@
 
       /* --- Media Queries for Responsive Design --- */
 
-      /* Very small mobile screens (e.g., iPhone 5/SE, smaller Androids) */
       @media (max-width: 380px) { 
             .hero-left h1 { font-size: 24px; }
             .hero-left .amrita-text { font-size: 16px; }
@@ -1017,7 +1030,6 @@
             footer .footer-social-links a { font-size: 1.3em; margin: 0 8px; }
             footer .footer-bottom { font-size: 0.75em; }
 
-            /* Carousel adjustments for very narrow screens */
             .carousel-wrapper { height: 220px; }
             .carousel-item { width: 90%; }
             .carousel-item.prev { transform: translate(-50%, -50%) translateX(-35%) scale(0.7) rotateY(0deg); }
@@ -1027,14 +1039,12 @@
             .carousel-item .absolute.bottom-0 p { font-size: 0.7rem; }
        }
       
-      /* Small devices (landscape phones, small tablets) - Card layout changes here */
      @media (min-width: 500px) {
         #team .team-card,
         .pillar-card {
-          width: calc(50% - 5px); /* Adjusted for 10px gap (50% - 10px/2) */
+          width: calc(50% - 5px); 
           max-width: 260px;
         }
-        /* Add the hamburger and theme toggle button styles here */
         .hamburger-button {
           top: 25px;
           right: 25px;
@@ -1073,7 +1083,7 @@
         footer ul li a { font-size: 0.875rem; } 
       } 
 
-      @media (min-width: 768px) { /* Tablets */
+      @media (min-width: 768px) { 
         .logo-container { top: 25px; left: 25px; }
         .logo-container img { height: 40px; }
         .hamburger-button { top: 25px; right: 25px; width: 40px; height: 40px; }
@@ -1084,21 +1094,18 @@
         .theme-toggle::before { font-size: 20px; }
         
         .main-content {
-          display: flex; /* Make sure this is present */
-          flex-direction: row; /* Change this from row-reverse to row (or remove it) */
+          display: flex; 
+          flex-direction: row; 
           align-items: center;
           justify-content: space-between;
-          padding: 50px 120px 50px 30px; /* Adjust padding as desired */
+          padding: 50px 120px 50px 30px; 
         }
 
-        /* Remove any 'order' properties you might have added to .hero-left or .hero-right for this layout */
         .hero-left {
-          /* Ensure no 'order' property here */
           align-items: flex-start;
           text-align: left;
         }
         .hero-right {
-          /* Ensure no 'order' property here */
           margin-top: 0;
           max-width: 350px;
         }
@@ -1132,22 +1139,20 @@
         .savishkaara-logos { gap: 30px; }
 
         #team .team-card-container { gap: 15px; }
-        #team .team-card { width: calc(33.333% - 10px); max-width: 280px; padding: 20px;} /* Gap 25px -> (25*2/3) = 16.66 -> 17px */
+        #team .team-card { width: calc(33.333% - 10px); max-width: 280px; padding: 20px;} 
         #team .team-card img { width: 110px; height: 110px; }
         #team .team-card h3 { font-size: 1.3em; }
         #team .team-card p { font-size: 0.9em; }
         #team h3.text-2xl { font-size: 1.8em; margin-top: 60px; margin-bottom: 30px; }
         .faculty-team-container {
             display: flex;
-            justify-content: center; /* Centers the cards horizontally */
-            flex-wrap: wrap; /* Allows cards to wrap if they don't fit on one line */
-            /* You might want to adjust the max-width of this container itself
-              if the cards are too far apart */
+            justify-content: center; 
+            flex-wrap: wrap; 
           }
         .about-pillars { gap: 25px; }
-        .pillar-card { width: calc(50% - 12.5px); max-width: 280px; padding: 25px;} /* Gap 25px -> 25/2 = 12.5px */
+        .pillar-card { width: calc(50% - 12.5px); max-width: 280px; padding: 25px;} 
          @media (min-width: 992px) { 
-            .pillar-card { width: calc(25% - 18.75px); } /* Gap 25px -> (25*3/4) = 18.75px */
+            .pillar-card { width: calc(25% - 18.75px); } 
          }
 
 
@@ -1160,7 +1165,7 @@
         footer .footer-social-links { justify-content: flex-start; } 
       }
 
-      @media (min-width: 1024px) { /* Laptops and Desktops */
+      @media (min-width: 1024px) { 
         .logo-container img { height: 45px; }
         .hero-left h1 { font-size: 48px; }
         .hero-left .amrita-text { font-size: 28px; }
@@ -1176,65 +1181,56 @@
 
 
         #youtube-video-section .youtube-placeholder-container img { max-width: 800px; }
-
+        #youtube-video-section .youtube-placeholder-container {
+          padding-bottom: 30%; /* Adjust this value as needed for laptop width */
+          /* Height will adjust automatically due to padding-bottom */
+        }
         .savishkaara-main-logo img { max-width: 180px; }
         .savishkaara-sub-logo { max-width: 120px; }
 
-        #team .team-card { width: calc(25% - 19px); } /* Gap 25px -> (25*3/4) = 18.75 -> 19px */
+        #team .team-card { width: calc(25% - 11.25px); } /* Adjusted for 15px gap */
          #team .team-card img { width: 120px; height: 120px; }
          #team .team-card h3 { font-size: 1.4em; }
 
-        .pillar-card { width: calc(25% - 19px); max-width: 280px;} /* Gap 25px */
+        .pillar-card { width: calc(25% - 18.75px); max-width: 280px;} /* Adjusted for 25px gap */
 
         #contact-section .map-container { height: 450px; }
         #contact-section .contact-grid {
-          grid-template-columns: repeat(2, 1fr); /* Two equal columns for contact info */
+          grid-template-columns: repeat(2, 1fr); 
         }
 
         #contact-section .map-container {
-          grid-column: 1 / -1; /* Make the map span across both columns */
-          height: 400px; /* Adjust map height for desktop */
+          grid-column: 1 / -1; 
+          height: 400px; 
         }
         footer .footer-grid {
-          grid-template-columns: repeat(
-            3,
-            1fr
-          ); /* Three equal columns for larger screens */
-          text-align: left; /* Align text to left in columns */
+          grid-template-columns: repeat(3,1fr); 
+          text-align: left; 
         }
 
         footer h4::after {
-          left: 0; /* Align underline to left for headings */
+          left: 0; 
           transform: translateX(0);
         }
       }
 
+      /* Combined the duplicate @media (min-width: 1024px) rule */
       @media (min-width: 1024px) {
-        #team .team-card {
-          /* Updated for 4 columns with a 15px gap (15px * 3 / 4 = 11.25px) */
-          width: calc(25% - 11.25px); 
-        }
-        #team .team-card img { width: 120px; height: 120px; }
-        #team .team-card h3 { font-size: 1.4em; }
         #contact-section .contact-grid {
-          grid-template-columns: repeat(3, 1fr); /* Three equal columns for larger desktops */
+          grid-template-columns: repeat(3, 1fr); 
         }
          footer .footer-grid {
-          grid-template-columns: repeat(
-            4,
-            1fr
-          ); /* Four equal columns for even larger screens if needed */
+          grid-template-columns: repeat(4,1fr); 
         }
       }
 
       @media (min-width: 1200px) {
         #team .team-card-container {
-          gap: 15px; /* Ensure gap is consistent */
+          gap: 15px; 
         }
         #team .team-card {
-          /* For 5 columns with a 15px gap (15px * 4 / 5 = 12px) */
-          width: calc(20% - 12px);
-          max-width: none; /* Allow it to scale with the 20% width */
+          width: calc(20% - 12px); /* 15px gap: 15 * 4 / 5 = 12px */
+          max-width: none; 
         }
       }
 
@@ -1286,7 +1282,7 @@
           >
         </h1>
         <p class="amrita-text">AMRITA VISHWA VIDHYAPEETHAM KOCHI</p>
-        <button class="cta-button">JOIN TODAY!</button>
+        <a href="#contact-section" class="cta-button">JOIN TODAY!</a>
       </div>
 
       <div class="hero-right">
@@ -1362,17 +1358,22 @@
     </section>
 
     <section id="youtube-video-section" class="generic-section">
-      <h2> Featured <span class="gradient-text">Video</span> </h2>
-      <p class="gradient-subtitle">Kerala Startup Mission - Whiteboard</p>
-      <div class="youtube-placeholder-container">
-         <a href="https://youtu.be/QnSAMSZ7y00" target="_blank" aria-label="Watch video on YouTube">
-            <img src="https://img.youtube.com/vi/QnSAMSZ7y00/hqdefault.jpg"
-                 alt="Kerala Startup Mission Whiteboard Video Thumbnail"
-                 onerror="this.src='https://placehold.co/800x450/1a1a1a/e6e6e6?text=Video+Placeholder';" />
-        </a>
-      </div>
-      <p> This video from Kerala Start-Up Mission (KSUM) was published on 2017-09-20. </p>
-    </section>
+        <h2> Featured <span class="gradient-text">Video</span> </h2>
+        <p class="gradient-subtitle">Kerala Startup Mission - Whiteboard</p>
+        <div class="youtube-placeholder-container">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/QnSAMSZ7y00"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+
+        </div>
+        <p> This video from Kerala Start-Up Mission (KSUM) was published on 2017-09-20. </p>
+      </section>
 
     <section id="savishkaara-section" class="generic-section">
       <div class="savishkaara-content">
@@ -1454,8 +1455,7 @@
           <p>Associate Professor, Dept. of ECE</p>
           <div class="social-links">
             <a href="#" target="_blank" aria-label="LinkedIn"
-              ><i class="fab fa-linkedin"></i></a>
-          </div>
+              ><i class="fab fa-linkedin"></i></a> </div>
         </div>
       </div>
       <br><br>
@@ -1575,11 +1575,13 @@
       <p> Stay tuned for our exciting lineup of workshops, guest lectures, and innovation challenges. We're constantly planning new opportunities for you to learn, network, and grow. Check back soon for updates! </p>
     </section>
 
-    <!-- <section id="resources" class="generic-section">
+    <!-- 
+    <section id="resources" class="generic-section">
       <h2> Valuable <span class="gradient-text">Resources</span> </h2>
       <p class="gradient-subtitle">Tools & Guides for Innovators</p>
       <p> Explore our curated list of resources, including startup guides, funding opportunities, mentorship programs, and essential tools to help you on your entrepreneurial journey. More coming soon! </p>
-    </section> -->
+    </section> 
+    -->
 
     <section id="contact-section" class="generic-section">
         <h2>Contact <span class="gradient-text">Us</span></h2>
@@ -1587,22 +1589,19 @@
 
         <div class="contact-grid">
             <div class="contact-info-item">
-                <span>&#x1F4CD;</span>&nbsp;&nbsp;
-                <div>
+                <i class="fas fa-map-marker-alt"></i> <div>
                     <h3> Our Address</h3>
                     <p>North, PO Brahmasthanam, Amrita Nagar, Edappally, Kochi, Ernakulam, Kerala 682024</p>
                 </div>
             </div>
             <div class="contact-info-item">
-                <span>&#9993;</span>&nbsp;&nbsp;
-                <div>
+                <i class="fas fa-envelope"></i> <div>
                     <h3> Email Us</h3>
                     <p><a href="mailto:iedc@kh.amrita.edu">iedc@kh.amrita.edu</a></p>
                 </div>
             </div>
             <div class="contact-info-item">
-                <span>&#9742;</span> &nbsp;&nbsp;
-                <div>
+                <i class="fas fa-phone-alt"></i> <div>
                     <h3>Call Us</h3>
                     <p><a href="tel:+916238996266">+91 6238996266</a></p>
                 </div>
@@ -1610,7 +1609,15 @@
         </div>
 
         <div class="map-container">
-            <iframe src="https://maps.app.goo.gl/JeeJVVkN2BZBYTkw8" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps Location of Amrita Vishwa Vidyapeetham, Kochi Campus"></iframe>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3931.0176758620644!2d76.2926172!3d10.0464162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080dc26c6734a5%3A0x80f344b602935780!2sAmrita%20Vishwa%20Vidyapeetham%2C%20Kochi!5e0!3m2!1sen!2sin!4v1717226183000!5m2!1sen!2sin"
+              width="600"
+              height="450"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
         </div>
     </section>
 
@@ -1626,15 +1633,15 @@
             <div>
                 <h4>Useful Links</h4>
                 <ul>
-                    <li><a href="#">> IPL</a></li> 
-                    <li><a href="#">> KSUM</a></li> 
+                    <li><a href="https://www.amrita.edu/center/innovation-project-laboratory-ipl/" target="_blank" rel="noopener noreferrer">> IPL</a></li> 
+                    <li><a href="https://startupmission.kerala.gov.in/" target="_blank" rel="noopener noreferrer">> KSUM</a></li> 
                 </ul>
             </div>
 
             <div>
                 <h4>Our Services</h4>
                 <ul>
-                    <li><a href="#">> Join IEDC</a></li> 
+                     <li><a href="#contact-section">> Join IEDC</a></li>
                 </ul>
             </div>
 
@@ -1718,7 +1725,7 @@
         { text: "SAVISHKAARA", href: "#savishkaara-section" },
         { text: "TEAM", href: "#team" },
         { text: "EVENTS", href: "#events" },
-        { text: "RESOURCES", href: "#resources" },
+        // { text: "RESOURCES", href: "#resources" }, 
       ];
 
       function createMenuItems() {
