@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IEDC // Events</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:400,700&family=Quantico:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* CSS Variables and Styles from index.html */
+      :root {
+        --bg-main: #080808;
+        --bg-secondary: #000000;
+        --text-primary: #e6e6e6;
+        --text-secondary: #b0b0b0;
+        --text-subtle: rgba(255, 255, 255, 0.8);
+        --accent-primary: #00e0ff;
+        --accent-secondary: #ff6f00;
+        --accent-gradient-start: #00e5ff;
+        --accent-gradient-end: #ffea00;
+        --overlay-bg: rgba(0, 0, 0, 0.98); /* For nav menu */
+        --event-card-overlay-bg: rgba(0, 0, 0, 0.8); /* For event cards */
+        --transparent-accent-light: rgba(0, 224, 255, 0.2);
+        --transparent-accent-medium: rgba(0, 224, 255, 0.4);
+        --transparent-accent-dark: rgba(0, 224, 255, 0.08);
+        --border-color-subtle: rgba(255, 255, 255, 0.03);
+        --card-bg: rgba(0, 224, 255, 0.05);
+        --card-border: rgba(0, 224, 255, 0.2);
+        --card-hover-border: var(--accent-gradient-start);
+        --logo-glow: rgba(0, 224, 255, 0.6);
+        --filter-btn-text: var(--text-primary);
+        --filter-btn-border: var(--text-primary);
+        --filter-btn-active-bg: var(--accent-primary);
+        --filter-btn-active-text: var(--bg-main);
+        --filter-btn-active-border: var(--accent-primary);
+        --filter-btn-hover-bg: var(--transparent-accent-light);
+      }
+
+      body.light-theme {
+        --bg-main: #d5d5d5;
+        --bg-secondary: #d5d5d5;
+        --text-primary: #333333;
+        --text-secondary: #555555;
+        --text-subtle: rgba(0, 0, 0, 0.7);
+        --accent-primary: #2196f3;
+        --accent-secondary: #ff9800;
+        --accent-gradient-start: #1976d2;
+        --accent-gradient-end: #ffc107;
+        --overlay-bg: rgba(255, 255, 255, 0.95); /* For nav menu */
+        --event-card-overlay-bg: rgba(255, 255, 255, 0.85); /* For event cards */
+        --transparent-accent-light: rgba(33, 150, 243, 0.15);
+        --transparent-accent-medium: rgba(33, 150, 243, 0.3);
+        --transparent-accent-dark: rgba(33, 150, 243, 0.06);
+        --border-color-subtle: rgba(0, 0, 0, 0.08);
+        --card-bg: rgba(33, 150, 243, 0.04);
+        --card-border: rgba(33, 150, 243, 0.15);
+        --card-hover-border: var(--accent-gradient-start);
+        --logo-glow: rgba(33, 150, 243, 0.4);
+        --filter-btn-text: var(--text-primary);
+        --filter-btn-border: var(--text-primary);
+        --filter-btn-active-bg: var(--accent-primary);
+        --filter-btn-active-text: #ffffff;
+        --filter-btn-active-border: var(--accent-primary);
+        --filter-btn-hover-bg: var(--transparent-accent-light);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg-main);
+        font-family: "Roboto Mono", monospace;
+        color: var(--text-primary);
+        overflow-x: hidden;
+        transition: background 0.5s ease, color 0.5s ease;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Styles for preloader, logo, hamburger, nav-menu, theme-toggle, generic-section, footer etc. from index.html */
+      /* --- Logo --- */
+      .logo-container { position: fixed; top: 20px; left: 20px; z-index: 1000;}
+      .logo-container img { height: 35px; width: auto;}
+      /* --- Hamburger Menu --- */
+      .hamburger-button { position: fixed; top: 20px; right: 20px; width: 38px; height: 38px; background: var(--transparent-accent-light); border: 1px solid var(--accent-primary); border-radius: 50%; display: flex; flex-direction: column; justify-content: space-around; align-items: center; cursor: pointer; z-index: 1002; padding: 8px 0; transition: all 0.3s ease;}
+      .hamburger-button:hover { background: var(--transparent-accent-medium); transform: scale(1.08);}
+      .hamburger-button .bar { width: 60%; height: 2px; background-color: var(--accent-primary); border-radius: 2px; transition: all 0.3s ease;}
+      .hamburger-button.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger-button.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .hamburger-button.open .bar:nth-child(2) { opacity: 0; }
+      /* --- Full-Page Navigation Menu --- */
+      .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1001; opacity: 0; visibility: hidden; transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out; pointer-events: none; perspective: 1000px; overflow-y: auto; }
+      .nav-menu.open { opacity: 1; visibility: visible; pointer-events: all; }
+      .nav-menu::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient( to right, var(--transparent-accent-dark) 1px, transparent 1px ), linear-gradient( to bottom, var(--transparent-accent-dark) 1px, transparent 1px ); background-size: 30px 30px; opacity: 0.3; z-index: -1; }
+      .nav-menu ul { list-style: none; padding: 0; text-align: center; transform: translateY(30px); opacity: 0; transition: transform 0.7s ease-out, opacity 0.7s ease-out; }
+      .nav-menu.open ul { transform: translateY(0); opacity: 1; transition-delay: 0.3s; }
+      .nav-menu ul li { margin: 15px 0; opacity: 0; transform: translateX(-50px); filter: blur(5px); }
+      .nav-menu.open ul li:nth-child(1) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.45s; }
+      .nav-menu.open ul li:nth-child(2) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.55s; } 
+      .nav-menu.open ul li:nth-child(3) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.65s; }
+      .nav-menu.open ul li:nth-child(4) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.75s; }
+      .nav-menu.open ul li:nth-child(5) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.85s; }
+      .nav-menu.open ul li:nth-child(6) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 0.95s; }
+      .nav-menu.open ul li:nth-child(7) { animation: menuItemIn 0.6s ease-out forwards; animation-delay: 1.05s; }
+      .nav-menu ul li a { color: var(--text-primary); text-decoration: none; font-family: "Quantico", sans-serif; font-size: 1.8em; font-weight: 700; transition: all 0.4s ease; position: relative; display: inline-block; letter-spacing: 1px; padding: 5px 10px; }
+      .nav-menu ul li a::after { content: ""; position: absolute; bottom: -5px; left: 50%; width: 0; height: 3px; background: linear-gradient( 90deg, var(--accent-gradient-start), var(--accent-gradient-end) ); transform: translateX(-50%); transition: width 0.4s ease; }
+      .nav-menu ul li a:hover { color: var(--accent-primary); transform: scale(1.03); letter-spacing: 1.5px; }
+      .nav-menu ul li a:hover::after { width: 80%; }
+      /* --- Theme Toggle Button --- */
+      .theme-toggle { position: fixed; top: 20px; right: 70px; width: 38px; height: 38px; border-radius: 50%; background-color: var(--transparent-accent-light); border: 1px solid var(--accent-primary); cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease; }
+      .theme-toggle:hover { background-color: var(--transparent-accent-medium); transform: scale(1.08); }
+      .theme-toggle::before { content: "🌙"; font-size: 18px; color: var(--text-primary); transition: color 0.5s ease; }
+      body.light-theme .theme-toggle::before { content: "☀️"; color: var(--text-primary); }
+      /* --- Preloader --- */
+      #preloader { position: fixed; inset: 0; background-color: var(--bg-secondary); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 1; visibility: visible; transition: opacity 1s ease-out, visibility 1s ease-out, background-color 0.5s ease; }
+      #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+      #preloader img { width: 80px; height: auto; margin-bottom: 20px; }
+      .loader-container { display: flex; flex-direction: column; align-items: center; }
+      .loader { width: 50px; height: 50px; border: 4px solid rgba(255, 255, 255, 0.1); border-top: 4px solid var(--accent-gradient-start); border-right: 4px solid var(--accent-gradient-end); border-radius: 50%; animation: spin 1.2s linear infinite; margin-bottom: 12px; }
+      .loading-text { color: var(--accent-primary); font-family: "Orbitron", sans-serif; font-size: 16px; letter-spacing: 1px; }
+      /* --- Generic Section Styling --- */
+      .generic-section { padding: 60px 20px; text-align: center; position: relative; background: var(--bg-secondary); opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; visibility: hidden; }
+      .generic-section.visible { opacity: 1; transform: translateY(0); visibility: visible; }
+      .generic-section::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient( to right, var(--border-color-subtle) 1px, transparent 1px ), linear-gradient( to bottom, var(--border-color-subtle) 1px, transparent 1px ); background-size: 25px 25px; pointer-events: none; z-index: 0; opacity: 0.7; }
+      .generic-section h2 { font-family: "Orbitron", sans-serif; font-size: 2em; margin-bottom: 10px; color: var(--text-primary); }
+      .generic-section .gradient-subtitle { font-family: "Quantico", sans-serif; font-size: 1.1em; margin-bottom: 30px; background: linear-gradient(90deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;}
+      .generic-section p { font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary); max-width: 700px; margin-left: auto; margin-right: auto; }
+      /* Footer Styles */
+      footer { background-color: var(--bg-secondary); color: var(--text-secondary); padding: 40px 20px 20px 20px; border-top: 1px solid var(--border-color-subtle); font-family: "Inter", sans-serif; }
+      footer .footer-grid { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; text-align: center; }
+      footer h4 { font-family: "Quantico", sans-serif; font-size: 1.1em; color: var(--text-primary); margin-bottom: 10px; position: relative; display: inline-block; }
+      body.light-theme footer h4 { color: #1f2937; }
+      footer h4::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: -5px; width: 30px; height: 2px; background: var(--accent-primary); }
+      footer ul { list-style: none; padding: 0; }
+      footer ul li { margin-bottom: 8px;  }
+      footer ul li a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease, padding-left 0.3s ease; font-size: 0.85em; }
+      body.light-theme footer ul li a { color: #4b5563; }
+      footer ul li a:hover { color: var(--accent-primary); padding-left: 5px; }
+      body.light-theme footer ul li a:hover { color: var(--accent-gradient-start); }
+      footer .footer-social-links { margin-top: 10px; } 
+      footer .footer-social-links a { display: inline-block; margin: 0 10px; color: var(--text-secondary); font-size: 1.4em; transition: color 0.3s ease, transform 0.3s ease; }
+      body.light-theme footer .footer-social-links a { color: #4b5563; }
+      footer .footer-social-links a:hover { color: var(--accent-primary); transform: scale(1.1); }
+      body.light-theme footer .footer-social-links a:hover { color: var(--accent-gradient-start); }
+      footer .footer-bottom { text-align: center; padding-top: 15px; border-top: 1px solid var(--border-color-subtle); font-size: 0.8em; }
+      footer .footer-bottom p { margin-bottom: 5px; }
+      body.light-theme footer .footer-bottom { color: #4b5563; }
+      /* CTA Button Style (from index.html, can be used for Back button) */
+      .cta-button { border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; color: #ffffff; border-radius: 8px; cursor: pointer; transition: all 0.4s ease-in-out; position: relative; overflow: hidden; text-transform: uppercase; letter-spacing: 0.5px; }
+      .cta-button:hover { transform: translateY(-2px) scale(1.02);  }
+      body.light-theme .cta-button { color: #000000; } /* Ensure text is visible on light theme */
+
+      /* --- Animations --- */
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes menuItemIn { from { opacity: 0; transform: translateX(-50px) rotateY(-20deg); filter: blur(5px); } to { opacity: 1; transform: translateX(0) rotateY(0deg); filter: blur(0); } }
+      
+      /* Specific styles for Events Page */
+      .events-main-title {
+        font-family: "Orbitron", sans-serif; /* Changed from KyivTypeSansBlack */
+        color: #CD1C18;
+        text-shadow: -1px -1px 0 var(--bg-secondary), 1px -1px 0 var(--bg-secondary), -1px 1px 0 var(--bg-secondary), 1px 1px 0 var(--bg-secondary), 0px 0px 8px rgba(0,0,0,0.4);
+        font-size: 4rem; /* Default size */
+        line-height: 1.1;
+        margin-top: 20px; /* Space from back button */
+        margin-bottom: 30px; /* Space before filters */
+      }
+      body.light-theme .events-main-title {
+        color: #CD1C18;
+        text-shadow: -1px -1px 0 var(--bg-main), 1px -1px 0 var(--bg-main), -1px 1px 0 var(--bg-main), 1px 1px 0 var(--bg-main), 0px 0px 5px rgba(0,0,0,0.15);
+      }
+
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem; /* text-xs */
+        font-weight: 600; /* semibold */
+        border-radius: 9999px; /* rounded-full */
+        border: 1px solid ;
+        color: var(--filter-btn-text);
+        background-color: transparent;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        margin: 0.25rem;
+      }     
+    .filter-btn:hover {
+        background-color: var(--filter-btn-hover-bg);
+        border-color: var(--accent-primary);
+      }
+      .filter-btn.active-btn {
+        background-color: #CD1C18;
+        color: var(--filter-btn-active-text);
+        border-color: #CD1C18;
+      }
+
+      .event-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px; /* Tailwind rounded-lg */
+        transition: all 0.3s ease;
+        display: block; /* Default display, JS will manage for filtering */
+      }
+      .event-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        border-color: var(--card-hover-border);
+        box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
+      }
+      body.light-theme .event-card:hover {
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
+      }
+
+      .event-card-info {
+        background-color: var(--event-card-overlay-bg);
+        color: var(--text-primary); 
+        transition: background-color 0.3s ease; 
+      }
+      .event-card-info h2 {
+        font-size: large;
+        color: var(--text-secondary); 
+        font-family: "Quantico", sans-serif;
+      }
+      .event-card-info p {
+        color: var(--text-secondary); 
+        font-family: "Inter", sans-serif;
+      }
+      .event-card .arrow-icon { 
+        filter: brightness(0) invert(1); /* Makes SVG white for dark theme if it's black by default */
+      }
+      body.light-theme .event-card .arrow-icon {
+         filter: none; /* Or specific filter for light theme if SVG is white by default */
+      }
+      
+      .category-group-title {
+        font-family: "Quantico", sans-serif;
+        font-size: 2em; 
+        color: #CD1C18; 
+        font-weight: 700;
+        text-align: center;
+        padding-bottom: 10px; 
+        margin-bottom: 20px; 
+        border-bottom: 1px solid var(--border-color-subtle);
+        /* margin-top is handled by JS */
+      }
+      body.light-theme .category-group-title {
+        color: #CD1C18;
+      }
+      .category-display-group {
+        /* Manages visibility of whole category section including title and cards grid */
+      }
+      
+      /* Media Queries from index.html (abbreviated for brevity, include full if needed) */
+      @media (max-width: 480px) {
+        .events-main-title { font-size: 12vw !important; }
+        .filter-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+        .filter-buttons-container { gap: 0.25rem; margin-top: 1rem; }
+        .logo-container { top: 15px; left: 15px; }
+        .logo-container img { height: 30px;}
+        .hamburger-button { top: 15px; right: 15px; width: 34px; height: 34px;}
+        .theme-toggle { top: 15px; right: 60px; width: 34px; height: 34px;}
+        .theme-toggle::before { font-size: 16px; }
+        .generic-section { padding: 40px 15px; }
+        .cta-button { padding: 8px 16px; font-size: 13px; }
+        .category-group-title { font-size: 1.2em; }
+      }
+      @media (min-width: 768px) {
+        .events-main-title { font-size: 5rem; }
+        .filter-btn { font-size: 0.875rem; padding: 0.6rem 1.2rem; }
+        .logo-container { top: 25px; left: 25px; } .logo-container img { height: 40px; }
+        .hamburger-button { top: 25px; right: 25px; width: 40px; height: 40px; }
+        .theme-toggle { top: 25px; right: 80px; width: 40px; height: 40px; }
+        .theme-toggle::before { font-size: 20px; }
+        footer .footer-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); text-align: left; }
+        footer h4::after { left: 0; transform: translateX(0); } 
+      }
+       @media (min-width: 1024px) {
+         .events-main-title { font-size: 6rem; }
+         footer .footer-grid { grid-template-columns: repeat(4,1fr); }
+      }
+    </style>
+  </head>
+  <body class="dark-theme">
+
+    <nav class="nav-menu" id="navMenu">
+      <ul id="menuList"></ul> </nav>
+
+    <section id="events-page-content" class="generic-section" style="padding-top: 80px;">
+        <div style="margin-bottom: 20px;">
+            <a href="javascript:history.back()" class="cta-button" style="display: inline-block; text-decoration: none;">← Go Back</a>
+        </div>
+        
+        <h1 class="events-main-title">EVENTS</h1>
+
+        <div class="filter-buttons-container flex flex-wrap justify-center mt-2 mb-8 gap-2 md:gap-4">
+            <button class="filter-btn active-btn" data-category="all">ALL</button>
+            <button class="filter-btn" data-category="ss">SAVISHKAARA 2025</button>
+            <button class="filter-btn" data-category="tech">SAVISHKAARA 2024</button>
+            <button class="filter-btn" data-category="techxp">PROJECT EXPO</button>
+            <button class="filter-btn" data-category="legends">WORKSHOP</button>
+            <button class="filter-btn" data-category="la">SESSIONS</button>
+            <button class="filter-btn" data-category="tt">HANDS-ON-TRAINING</button>
+        </div>
+
+        <div id="eventContainer" class="relative z-10 md:px-4">
+            
+            <div id="category-ss-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">SAVISHKAARA 2025</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="ss">
+                      <img src="https://i.postimg.cc/PJKWfV0w/Hackathon.png" alt="Fast Track IoT With ESP 32" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Fast Track IoT With ESP 32</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2025</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="ss">
+                      <img src="assets/nologo/ai workshop 2025 (1) (1) (1).png" alt="AI-Powered Application Development" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1 leading-tight">AI-Powered Application Development with Replit</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2025</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="ss">
+                      <img src="assets/nologo/HANDS-ON GITHUB workshop (1) (1) (1) (1) (1).png" alt="Hands-On GitHub" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1 leading-tight">Hands-On GitHub for Developers</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2025</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-tech-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">SAVISHKAARA 2024</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                      <img src="assets/nologo/TECH SURVIVAL (1) (1).png" alt="Tech Survival" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Tech Survival</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                      <img src="assets/nologo/NERDSCRIPT (1) (1) (1).png" alt="Nerd Script" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Nerd Script</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                        <img src="assets/nologo/BIOS CTF (1) (1) (1) (1).png" alt="CTF" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                        <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">CTF</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                        </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                        <img src="assets/nologo/TREASURE HUNT (1) (1) (1) (1).png" alt="Treasure Hunt" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                        <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Treasure Hunt</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                        </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                        <img src="assets/nologo/web hackathon 2 (1) (1) (1).png" alt="Web Hackathon" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                        <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Web Hackathon</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                        </div>
+                    </div>
+                     <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                      <img src="assets/nologo/TEHC TRIATHALON (1) (1).png" alt="Tech Triathlon" class="w-full h-full object-cover"  onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Tech Triathlon</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                         <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                      <img src="assets/nologo/Technigo 2nd copy (2) (1) (1) (1) (1) (1) (1).png" alt="TechinGo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">TechinGo</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tech">
+                      <img src="assets/nologo/uixploit (1) (1) (1).png" alt="UIXPLOIT" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">UIXPLOIT</h2>
+                        <p class="text-xs md:text-sm">SAVISHKAARA 2024</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-techxp-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">PROJECT EXPO</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                     <div class="event-card relative group overflow-hidden h-[400px]" data-category="techxp">
+                      <img src="assets/nologo/Hackathon.png" alt="Project Expo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=TechXpo';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Project Expo</h2>
+                        <p class="text-xs md:text-sm">Showcase</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-legends-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">WORKSHOP</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="legends">
+                      <img src="assets/nologo/PES 2025 (1).png" alt="PES Tournament Workshop" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">PES Tournament</h2>
+                        <p class="text-xs md:text-sm">Workshop</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="legends">
+                      <img src="assets/nologo/Squid Game 2025 (1) (1).png" alt="Squid Game Workshop" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Squid Game</h2>
+                        <p class="text-xs md:text-sm">Workshop</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="legends">
+                      <img src="assets/nologo/FC 25 TOURNAMENT (1) (1) (1) (1).png" alt="FC 25 Tournament Workshop" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">FC 25 Tournament</h2>
+                        <p class="text-xs md:text-sm">Workshop</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="legends">
+                          <img src="assets/nologo/xonotic 2025 (1) (1) (1) (1) (1).png" alt="Xonotic Workshop" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                          <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                              <h2 class="text-md md:text-lg font-bold mb-1">Xonotic</h2>
+                              <p class="text-xs md:text-sm">Workshop</p>
+                              <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                          </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="legends">
+                      <img src="assets/nologo/velocity x automation 2025 (1) (1).png" alt="Velocity X Automation Workshop" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Velocity X Automation</h2>
+                        <p class="text-xs md:text-sm">Workshop</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="legends">
+                      <img src="assets/nologo/bgmi 2025 (1) (1) (1).png" alt="BGMI Workshop" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">BGMI</h2>
+                        <p class="text-xs md:text-sm">Workshop</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-la-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">SESSIONS</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="la">
+                      <img src="assets/nologo/MOvie Madness 2025.png" alt="Movie Madness Session" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Movie Madness</h2>
+                        <p class="text-xs md:text-sm">Session</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="la">
+                      <img src="assets/nologo/Xp arena (1) (2) (1) (1).png" alt="XPArena Session" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">XPArena</h2>
+                        <p class="text-xs md:text-sm">Session</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="la">
+                      <img src="assets/nologo/game room (1) (1) (1) (1).png" alt="Game Room Session" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Game Room</h2>
+                        <p class="text-xs md:text-sm">Session</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="la">
+                      <img src="assets/nologo/CARROM (1) (1).png" alt="Carroms Session" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Carroms</h2>
+                        <p class="text-xs md:text-sm">Session</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-tt-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">HANDS-ON-TRAINING</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tt">
+                      <img src="assets/nologo/Open Mic 2k25 (1) (1) (1) (1).png" alt="Open Mic Training" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Open Mic</h2>
+                        <p class="text-xs md:text-sm">Hands-On Training</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tt">
+                      <img src="assets/nologo/DANCE (1) (1) (1) (1).png" alt="Dance Training" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Dance</h2>
+                        <p class="text-xs md:text-sm">Hands-On Training</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="tt">
+                      <img src="assets/nologo/Band (1) (1).png" alt="Music Band Training" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Event+Image';" loading="lazy"/>
+                      <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                        <h2 class="text-md md:text-lg font-bold mb-1">Music Band</h2>
+                        <p class="text-xs md:text-sm">Hands-On Training</p>
+                        <img alt="arrow" src="https://ragam.co.in/images/assets/cardArrow.svg" width="20" height="20" class="arrow-icon absolute top-2 right-2 transform transition-transform group-hover:scale-110" loading="lazy" >
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> </section>
+    <script>
+      // Preloader Logic (from index.html)
+      window.addEventListener("load", () => {
+        const preloader = document.getElementById("preloader");
+        const mainContent = document.getElementById("events-page-content"); 
+        const loadingTextElement = document.querySelector("#preloader .loading-text");
+        const texts = ["LOADING EVENTS...", "ACCESSING DATABASE...", "RENDERING ASSETS...", "ALMOST THERE...", "WELCOME TO EVENTS!"];
+        let textIndex = 0;
+
+        function updateLoadingText() {
+            if (loadingTextElement) {
+                loadingTextElement.textContent = texts[textIndex];
+                textIndex = (textIndex + 1) % texts.length;
+            }
+        }
+        const textInterval = setInterval(updateLoadingText, 350); 
+
+        updateThemeImage(); 
+
+        setTimeout(() => {
+          clearInterval(textInterval);
+          if (preloader) preloader.classList.add("hidden");
+          setTimeout(() => {
+            if (mainContent) mainContent.classList.add("visible");
+          }, 200); 
+        }, 1800); 
+      });
+
+      // Theme Toggle Logic (from index.html)
+      const themeToggle = document.getElementById("themeToggle");
+      const body = document.body;
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        body.classList.remove("dark-theme", "light-theme"); 
+        body.classList.add(savedTheme);
+      } else {
+        body.classList.add("dark-theme"); 
+        localStorage.setItem("theme", "dark-theme");
+      }
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          body.classList.toggle("light-theme");
+          body.classList.toggle("dark-theme");
+          if (body.classList.contains("light-theme")) {
+            localStorage.setItem("theme", "light-theme");
+          } else {
+            localStorage.setItem("theme", "dark-theme");
+          }
+          updateThemeImage(); 
+        });
+      }
+      
+      function updateThemeImage() {
+        const preloaderImage = document.querySelector(".preloader-image");
+        if (preloaderImage && preloaderImage.dataset.darkSrc && preloaderImage.dataset.lightSrc) {
+            if (body.classList.contains("light-theme")) {
+                preloaderImage.src = preloaderImage.dataset.lightSrc;
+            } else {
+                preloaderImage.src = preloaderImage.dataset.darkSrc;
+            }
+        }
+      }
+      
+      const hamburgerButton = document.getElementById("hamburgerButton");
+      const navMenu = document.getElementById("navMenu");
+      const menuList = document.getElementById("menuList");
+      const menuItemsData = [ 
+        { text: "HOME", href: "index.html#main-content" }, { text: "ABOUT", href: "index.html#about-section" },
+        { text: "HIGHLIGHTS", href: "index.html#highlights-carousel-section-v2" }, { text: "SAVISHKAARA", href: "index.html#savishkaara-section" },
+        { text: "TEAM", href: "index.html#team" }, { text: "EVENTS", href: "events.html" }, 
+      ];
+      function createMenuItems() {
+        if (!menuList) return;
+        menuList.innerHTML = ""; 
+        menuItemsData.forEach((item) => {
+          const listItem = document.createElement("li");
+          const anchor = document.createElement("a");
+          anchor.href = item.href;
+          anchor.textContent = item.text;
+          if (item.text === "EVENTS" && (window.location.pathname.endsWith('events.html') || window.location.pathname.endsWith('events'))) {
+            anchor.style.color = "var(--accent-secondary)"; 
+            anchor.style.pointerEvents = "none"; 
+          }
+          listItem.appendChild(anchor);
+          menuList.appendChild(listItem);
+          anchor.addEventListener("click", (e) => {
+            if (item.text === "EVENTS" && (window.location.pathname.endsWith('events.html') || window.location.pathname.endsWith('events'))) {
+                 e.preventDefault(); // Already on events page
+            }
+            if (hamburgerButton) hamburgerButton.classList.remove("open");
+            if (navMenu) navMenu.classList.remove("open");
+            document.body.style.overflow = ""; 
+          });
+        });
+      }
+      createMenuItems();
+      if (hamburgerButton && navMenu) {
+        hamburgerButton.addEventListener("click", () => {
+          hamburgerButton.classList.toggle("open");
+          navMenu.classList.toggle("open");
+          if (navMenu.classList.contains("open")) {
+            document.body.style.overflow = "hidden"; 
+          } else {
+            document.body.style.overflow = "";
+          }
+        });
+      }
+
+      const observerOptions = { root: null, rootMargin: "0px", threshold: 0.1 };
+      const sectionObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target); 
+          }
+        });
+      }, observerOptions);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const eventsSection = document.getElementById("events-page-content");
+        if (eventsSection) sectionObserver.observe(eventsSection);
+        updateThemeImage(); 
+
+        const buttons = document.querySelectorAll(".filter-btn");
+        const categoryGroups = document.querySelectorAll(".category-display-group");
+
+        function displayCategory(selectedCategory) {
+            let firstVisibleGroup = true; 
+
+            categoryGroups.forEach(group => {
+                const groupCategoryAttr = group.id.replace('category-', '').replace('-group', '');
+                const cardsInGroup = group.querySelectorAll('.event-card');
+                let hasEvents = cardsInGroup.length > 0;
+
+                if (selectedCategory === "all") {
+                    if (hasEvents) {
+                        group.style.display = "block";
+                        cardsInGroup.forEach(card => card.style.display = "block"); 
+
+                        const titleElement = group.querySelector('.category-group-title');
+                        if (titleElement) {
+                            titleElement.style.marginTop = firstVisibleGroup ? "0px" : "40px";
+                        }
+                        firstVisibleGroup = false; 
+                    } else {
+                        group.style.display = "none"; 
+                    }
+                } else {
+                    if (groupCategoryAttr === selectedCategory) {
+                        if (hasEvents) {
+                            group.style.display = "block";
+                            cardsInGroup.forEach(card => card.style.display = "block");
+                            const titleElement = group.querySelector('.category-group-title');
+                            if (titleElement) {
+                                 titleElement.style.marginTop = "0px"; 
+                            }
+                        } else {
+                            group.style.display = "none"; 
+                        }
+                    } else {
+                        group.style.display = "none"; 
+                    }
+                }
+            });
+        }
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                buttons.forEach((btn) => btn.classList.remove("active-btn"));
+                button.classList.add("active-btn");
+                const category = button.getAttribute("data-category");
+                displayCategory(category);
+            });
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filter');
+        let initialCategory = "all";
+
+        if (filterParam) {
+            const filterButton = document.querySelector(`.filter-btn[data-category="${filterParam}"]`);
+            if (filterButton) {
+                initialCategory = filterParam;
+                document.querySelector('.filter-btn[data-category="all"]').classList.remove('active-btn');
+                filterButton.classList.add('active-btn');
+            } else {
+                 document.querySelector('.filter-btn[data-category="all"]').classList.add('active-btn');
+            }
+        } else {
+             document.querySelector('.filter-btn[data-category="all"]').classList.add('active-btn');
+        }
+        displayCategory(initialCategory); 
+      });
+    </script>
+  </body>
+</html>
