@@ -128,7 +128,7 @@
       .hamburger-button {
         position: fixed;
         top: 20px; 
-        right: 20px; 
+        right: 25px; 
         width: 38px; 
         height: 38px; 
         background: var(--transparent-accent-light);
@@ -284,7 +284,7 @@
       .theme-toggle {
         position: fixed;
         top: 20px; 
-        right: 70px; 
+        right: 75px; 
         width: 38px; 
         height: 38px; 
         border-radius: 50%;
@@ -998,237 +998,225 @@
       @keyframes expandUnderline { from { width: 0; } to { width: 80px; } }
       @keyframes logoFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } } 
 
-      /* --- Media Queries for Responsive Design --- */
+      /* ================================
+         Base Styles (Mobile First)
+         ================================ */
+        .hero-left h1 { font-size: 1.5rem; }
+        .hero-left .amrita-text { font-size: 1rem; }
+        .hero-left p:not(.amrita-text) { font-size: 0.8125rem; }
+        .cta-button { padding: 10px 18px; font-size: 0.8125rem; }
 
-      @media (max-width: 380px) { 
-            .hero-left h1 { font-size: 24px; }
-            .hero-left .amrita-text { font-size: 16px; }
-            .hero-left p:not(.amrita-text) { font-size: 13px; }
-            .cta-button { padding: 10px 18px; font-size: 13px; }
+        .generic-section h2 { font-size: 1.8em; }
+        .generic-section .gradient-subtitle { font-size: 1em; }
+        .generic-section p, .generic-section li { font-size: 0.85rem; }
 
-            .generic-section h2 { font-size: 1.8em; }
-            .generic-section .gradient-subtitle { font-size: 1em; }
-            .generic-section p, .generic-section li { font-size: 0.85rem; }
+        .nav-menu ul li a { font-size: 1.5em; }
+        .nav-menu ul li { margin: 12px 0; }
 
-            .nav-menu ul li a { font-size: 1.5em; } 
-            .nav-menu ul li { margin: 12px 0; }
+        #team .team-card h3, .pillar-card h3 { font-size: 1.1em; }
+        #team .team-card p, .pillar-card p { font-size: 0.8em; }
 
-            #team .team-card h3, .pillar-card h3 { font-size: 1.1em; }
-            #team .team-card p, .pillar-card p { font-size: 0.8em; }
-
-            #contact-section .contact-info-item h3 { font-size: 1em; }
-            #contact-section .contact-info-item p, 
-            #contact-section .contact-info-item a { font-size: 0.85rem; }
-            #contact-section .contact-info-item i { font-size: 1.3em; margin-right: 10px; width: 22px; }
-
-            footer h4 { font-size: 1em; }
-            footer ul li a { font-size: 0.8rem; }
-            footer .footer-social-links a { font-size: 1.3em; margin: 0 8px; }
-            footer .footer-bottom { font-size: 0.75em; }
-
-            .carousel-wrapper { height: 220px; }
-            .carousel-item { width: 90%; }
-            .carousel-item.prev { transform: translate(-50%, -50%) translateX(-35%) scale(0.7) rotateY(0deg); }
-            .carousel-item.next { transform: translate(-50%, -50%) translateX(35%) scale(0.7) rotateY(0deg); }
-            .carousel-item.prev-2, .carousel-item.next-2 { opacity: 0.1; transform: translate(-50%, -50%) scale(0.5); } 
-            .carousel-item .absolute.bottom-0 h3 { font-size: 0.8rem; }
-            .carousel-item .absolute.bottom-0 p { font-size: 0.7rem; }
-       }
-      
-     @media (min-width: 500px) {
-        #team .team-card,
-        .pillar-card {
-          width: calc(50% - 5px); 
-          max-width: 260px;
-        }
-        .hamburger-button {
-          top: 25px;
-          right: 25px;
-          width: 40px;
-          height: 40px;
-        }
-        .hamburger-button .bar {
-          width: 70%;
-          height: 3px;
-        }
-        .hamburger-button.open .bar:nth-child(1) {
-          transform: translateY(9px) rotate(45deg);
-        }
-        .hamburger-button.open .bar:nth-child(3) {
-          transform: translateY(-9px) rotate(-45deg);
-        }
-        .theme-toggle {
-          top: 25px;
-          right: 80px;
-          width: 40px;
-          height: 40px;
-        }
-        .theme-toggle::before {
-          font-size: 20px;
-        }
-      
-         .hero-left h1 { font-size: 32px; }
-        .hero-left .amrita-text { font-size: 20px; }
-        .hero-left p:not(.amrita-text) { font-size: 15px; }
-        .generic-section h2 { font-size: 2.2em; }
-        .generic-section .gradient-subtitle { font-size: 1.2em; }
-        #contact-section .contact-info-item h3 { font-size: 1.2em; }
+        #contact-section .contact-info-item h3 { font-size: 1em; }
         #contact-section .contact-info-item p,
-        #contact-section .contact-info-item a { font-size: 0.9rem; }
-        footer h4 { font-size: 1.15em; }
-        footer ul li a { font-size: 0.875rem; } 
-      } 
+        #contact-section .contact-info-item a { font-size: 0.85rem; }
+        #contact-section .contact-info-item i {
+          font-size: 1.3em;
+          margin-right: 10px;
+          width: 22px;
+        }
 
-      @media (min-width: 768px) { 
-        .logo-container { top: 25px; left: 25px; }
-        .logo-container img { height: 40px; }
-        .hamburger-button { top: 25px; right: 25px; width: 40px; height: 40px; }
-        .hamburger-button .bar { width: 70%; height: 3px; }
-        .hamburger-button.open .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-        .hamburger-button.open .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-        .theme-toggle { top: 25px; right: 80px; width: 40px; height: 40px; }
-        .theme-toggle::before { font-size: 20px; }
+        footer h4 { font-size: 1em; }
+        footer ul li a { font-size: 0.8rem; }
+        footer .footer-social-links a { font-size: 1.3em; margin: 0 8px; }
+        footer .footer-bottom { font-size: 0.75em; }
+
+        .carousel-wrapper { height: 220px; }
+        .carousel-item { width: 90%; }
+        .carousel-item.prev,
+        .carousel-item.next {
+          transform: translate(-50%, -50%) translateX(-35%) scale(0.7);
+        }
+        .carousel-item.prev-2,
+        .carousel-item.next-2 {
+          opacity: 0.1;
+          transform: translate(-50%, -50%) scale(0.5);
+        }
+        .carousel-item .absolute.bottom-0 h3 { font-size: 0.8rem; }
+        .carousel-item .absolute.bottom-0 p { font-size: 0.7rem; }
+
+      /* ================================
+         481px – 767px (Large phones, small tablets)
+         ================================ */
+        @media (min-width: 481px) and (max-width: 767px) {
+          .hero-left h1 { font-size: 2rem; }
+          .hero-left .amrita-text { font-size: 1.2rem; }
+          .hero-left p:not(.amrita-text) { font-size: 0.9rem; }
+          .cta-button { font-size: 0.9rem; }
         
+          .generic-section h2 { font-size: 2.2em; }
+          .generic-section .gradient-subtitle { font-size: 1.2em; }
+        
+          #contact-section .contact-info-item h3 { font-size: 1.1em; }
+          #contact-section .contact-info-item p,
+          #contact-section .contact-info-item a { font-size: 0.9rem; }
+        
+          footer h4 { font-size: 1.15em; }
+          footer ul li a { font-size: 0.875rem; }
+        
+          #team .team-card,
+          .pillar-card {
+            width: calc(50% - 10px);
+            max-width: 260px;
+          }
+        
+          .hamburger-button,
+          .theme-toggle {
+            top: 25px;
+            right: 25px;
+            width: 40px;
+            height: 40px;
+          }
+          .hamburger-button .bar { width: 70%; height: 3px; }
+          .theme-toggle::before { font-size: 20px; }
+        }
+
+      /* ================================
+         768px – 991px (Tablets)
+         ================================ */
+      @media (min-width: 768px) {
         .main-content {
-          display: flex; 
-          flex-direction: row; 
+          display: flex;
+          flex-direction: row;
           align-items: center;
           justify-content: space-between;
-          padding: 50px 120px 50px 30px; 
+          padding: 50px 120px 50px 30px;
         }
-
-        .hero-left {
-          align-items: flex-start;
-          text-align: left;
-        }
+      
+        .hero-left { text-align: left; }
         .hero-right {
           margin-top: 0;
           max-width: 350px;
         }
-
-        .hero-image {
-          max-width: 300px;
-          margin: 0;
-        }
-
-        .hero-left h1 { font-size: 38px; }
-        .hero-left .amrita-text { font-size: 24px; }
-        .hero-left p:not(.amrita-text) { font-size: 16px; max-width: 400px; }
-        .cta-button { padding: 10px 22px; font-size: 15px; }
-
-        .nav-menu ul li a { font-size: 2.2em; } 
+      
+        .hero-image { max-width: 300px; }
+      
+        .hero-left h1 { font-size: 2.375rem; }
+        .hero-left .amrita-text { font-size: 1.5rem; }
+        .hero-left p:not(.amrita-text) { font-size: 1rem; max-width: 400px; }
+        .cta-button { font-size: 0.9375rem; padding: 10px 22px; }
+      
         .generic-section { padding: 70px 30px; }
         .generic-section h2 { font-size: 2.8em; }
         .generic-section .gradient-subtitle { font-size: 1.4em; }
         .generic-section p, .generic-section li { font-size: 1rem; }
-
-
+      
         .carousel-wrapper { height: 350px; }
-        .carousel-item { width: 60%; height: 90%;}
-        .carousel-item .absolute.bottom-0 h3 { font-size: 1rem; } 
+        .carousel-item { width: 60%; height: 90%; }
+        .carousel-item .absolute.bottom-0 h3 { font-size: 1rem; }
         .carousel-item .absolute.bottom-0 p { font-size: 0.875rem; }
-
+      
         #youtube-video-section .youtube-placeholder-container img { max-width: 700px; }
-
+      
         .savishkaara-main-logo img { max-width: 160px; }
         .savishkaara-sub-logo { max-width: 100px; }
         .savishkaara-logos { gap: 30px; }
-
+      
         #team .team-card-container { gap: 15px; }
-        #team .team-card { width: calc(33.333% - 10px); max-width: 280px; padding: 20px;} 
+        #team .team-card {
+          width: calc(33.333% - 10px);
+          max-width: 280px;
+          padding: 20px;
+        }
+      
         #team .team-card img { width: 110px; height: 110px; }
         #team .team-card h3 { font-size: 1.3em; }
         #team .team-card p { font-size: 0.9em; }
-        #team h3.text-2xl { font-size: 1.8em; margin-top: 60px; margin-bottom: 30px; }
-        .faculty-team-container {
-            display: flex;
-            justify-content: center; 
-            flex-wrap: wrap; 
-          }
-        .about-pillars { gap: 25px; }
-        .pillar-card { width: calc(50% - 12.5px); max-width: 280px; padding: 25px;} 
-         @media (min-width: 992px) { 
-            .pillar-card { width: calc(25% - 18.75px); } 
-         }
-
-
-        #contact-section .contact-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        #contact-section .contact-info-item h3 { font-size: 1.25em; }
+      
+        .pillar-card {
+          width: calc(50% - 12.5px);
+          max-width: 280px;
+          padding: 25px;
+        }
+      
+        #contact-section .contact-grid {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 30px;
+        }
+      
         #contact-section .map-container { height: 400px; }
-
-        footer .footer-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); text-align: left; }
-        footer h4::after { left: 0; transform: translateX(0); } 
-        footer .footer-social-links { justify-content: flex-start; } 
+      
+        footer .footer-grid {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          text-align: left;
+        }
+        footer h4::after {
+          left: 0;
+          transform: translateX(0);
+        }
+        footer .footer-social-links { justify-content: flex-start; }
       }
 
-      @media (min-width: 1024px) { 
-        .logo-container img { height: 45px; }
-        .hero-left h1 { font-size: 48px; }
-        .hero-left .amrita-text { font-size: 28px; }
+      /* ================================
+         992px – 1199px (Laptops)
+         ================================ */
+      @media (min-width: 992px) {
+        .logo-container img { height: 40px; }
+        .hero-left h1 { font-size: 2.75rem; }
+        .hero-left .amrita-text { font-size: 1.75rem; }
         .hero-image { max-width: 350px; }
-
         .nav-menu ul li a { font-size: 2.5em; }
+      
         .generic-section { padding: 80px 30px; }
         .generic-section h2 { font-size: 3em; }
         .generic-section .gradient-subtitle { font-size: 1.5em; }
-
-        .carousel-wrapper { height: 400px; } 
-         .carousel-item { width: 50%; height: 100%;}
-
-
+      
+        .carousel-wrapper { height: 400px; }
+        .carousel-item { width: 50%; height: 100%; }
+      
         #youtube-video-section .youtube-placeholder-container img { max-width: 800px; }
         #youtube-video-section .youtube-placeholder-container {
-          padding-bottom: 30%; /* Adjust this value as needed for laptop width */
-          /* Height will adjust automatically due to padding-bottom */
+          padding-bottom: 30%;
         }
+      
         .savishkaara-main-logo img { max-width: 180px; }
         .savishkaara-sub-logo { max-width: 120px; }
-
-        #team .team-card { width: calc(25% - 11.25px); } /* Adjusted for 15px gap */
-         #team .team-card img { width: 120px; height: 120px; }
-         #team .team-card h3 { font-size: 1.4em; }
-
-        .pillar-card { width: calc(25% - 18.75px); max-width: 280px;} /* Adjusted for 25px gap */
-
-        #contact-section .map-container { height: 450px; }
-        #contact-section .contact-grid {
-          grid-template-columns: repeat(2, 1fr); 
-        }
-
-        #contact-section .map-container {
-          grid-column: 1 / -1; 
-          height: 400px; 
-        }
-        footer .footer-grid {
-          grid-template-columns: repeat(3,1fr); 
-          text-align: left; 
-        }
-
-        footer h4::after {
-          left: 0; 
-          transform: translateX(0);
-        }
-      }
-
-      /* Combined the duplicate @media (min-width: 1024px) rule */
-      @media (min-width: 1024px) {
-        #contact-section .contact-grid {
-          grid-template-columns: repeat(3, 1fr); 
-        }
-         footer .footer-grid {
-          grid-template-columns: repeat(4,1fr); 
-        }
-      }
-
-      @media (min-width: 1200px) {
-        #team .team-card-container {
-          gap: 15px; 
-        }
+      
         #team .team-card {
-          width: calc(20% - 12px); /* 15px gap: 15 * 4 / 5 = 12px */
-          max-width: none; 
+          width: calc(25% - 11.25px);
+        }
+        #team .team-card img { width: 120px; height: 120px; }
+        #team .team-card h3 { font-size: 1.4em; }
+      
+        .pillar-card {
+          width: calc(25% - 18.75px);
+          max-width: 280px;
+        }
+      
+        #contact-section .map-container { height: 450px; }
+        #contact-section .contact-grid { grid-template-columns: repeat(2, 1fr); }
+      
+        footer .footer-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      /* ================================
+         ≥ 1024px (Larger laptops/desktops)
+         ================================ */
+      @media (min-width: 1024px) {
+        #contact-section .contact-grid { grid-template-columns: repeat(3, 1fr); }
+        footer .footer-grid { grid-template-columns: repeat(4, 1fr); }
+      }
+
+      /* ================================
+         ≥ 1200px (Desktops / Widescreens)
+         ================================ */
+      @media (min-width: 1200px) {
+        #team .team-card-container { gap: 15px; }
+        #team .team-card {
+          width: calc(20% - 12px);
+          max-width: none;
         }
       }
+
 
     </style>
   </head>
