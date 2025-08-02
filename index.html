@@ -742,6 +742,15 @@
 
 
       /* --- Team Section & About Pillars Section --- */
+
+      #team .team-card {
+        padding: 20px !important;
+        text-align: center !important;
+        width: 100% !important; /* Full width of grid cell */
+        max-width: 250px !important; /* Optional - keep card size consistent */
+        transition: transform 0.3s ease !important;
+      }
+
       #team .team-card, 
       .pillar-card {
         background: var(--card-bg);
@@ -756,15 +765,18 @@
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); 
         transition: all 0.3s ease;
       }
+
       .pillar-card { 
         padding: 20px;
       }
+
       .pillar-card:hover,
       #team .team-card:hover {
         transform: translateY(-4px) scale(1.02); 
         border-color: var(--card-hover-border);
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25); 
       }
+
       .pillar-card:hover { 
          transform: translateY(-5px);
       }
@@ -777,28 +789,34 @@
         justify-content: center;
         gap: 10px; 
         margin-top: 30px;
+        
       }
       
       #team .team-card img {
-        width: 100px; 
-        height: 100px; 
+        width: 120px; 
+        height: 120px; 
         border-radius: 50%;
         object-fit: cover;
         margin: 0 auto 10px auto; 
+        object-fit: cover;
+        margin-bottom: 10px;
         border: 2px solid var(--accent-primary); 
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); 
         transition: all 0.3s ease;
       }
+
       #team .team-card:hover img {
         transform: scale(1.03); 
         box-shadow: 0 0 6px var(--accent-primary); 
       }
+
       #team .team-card h3 {
         font-family: "Quantico", sans-serif;
         font-size: 1.2em; 
         color: var(--accent-primary);
         margin-bottom: 5px; 
       }
+
       #team .team-card p {
         font-family: "Roboto Mono", monospace;
         color: var(--text-secondary);
@@ -806,6 +824,7 @@
         line-height: 1.5;
         margin-bottom: 10px; 
       }
+
       #team .team-card .social-links a {
         display: inline-block;
         margin: 0 6px; 
@@ -813,14 +832,24 @@
         font-size: 1.3em; 
         transition: color 0.3s ease, transform 0.3s ease;
       }
+
       #team .team-card .social-links a:hover {
         color: var(--accent-primary);
         transform: scale(1.1); 
       }
+
       #team h3.text-2xl { 
-         font-size: 1.5em; 
-         margin-top: 40px; 
-         margin-bottom: 20px; 
+        font-size: 1.5em; 
+        margin-top: 40px; 
+        margin-bottom: 20px; 
+      }
+
+      #team .team-card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2px;
+        justify-items: center;
+        margin-top: 3px;
       }
 
       .pillar-card .icon {
@@ -828,18 +857,19 @@
         margin-bottom: 10px; 
         color: var(--accent-primary); 
       }
+
       .pillar-card h3 {
         font-family: "Quantico", sans-serif;
         font-size: 1.3em; 
         color: var(--accent-primary);
         margin-bottom: 8px; 
       }
+
       .pillar-card p {
         color: var(--text-secondary);
         font-size: 0.85em; 
         line-height: 1.6;
       }
-
 
       /* --- Contact Section Specific Styles --- */
       #contact-section .contact-grid {
@@ -849,6 +879,7 @@
         margin-top: 30px; 
         text-align: left;
       }
+
       #contact-section .contact-info-item {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
@@ -858,10 +889,12 @@
         display: flex; 
         align-items: flex-start; 
       }
+
       #contact-section .contact-info-item:hover {
         transform: translateY(-5px);
         border-color: var(--card-hover-border);
       }
+
       #contact-section .contact-info-item i {
         font-size: 1.5em;
         color: var(--accent-primary);
@@ -882,6 +915,7 @@
       #contact-section .contact-info-item > div {
         flex-grow: 1; 
       }
+
       #contact-section .contact-info-item h3 {
         font-family: "Quantico", sans-serif;
         font-size: 1.1em; 
@@ -889,6 +923,7 @@
         margin-bottom: 5px; 
         display: block; 
       }
+
       #contact-section .contact-info-item p,
       #contact-section .contact-info-item a {
         font-family: "Inter", sans-serif; 
@@ -900,10 +935,12 @@
         padding-left: 0; 
         margin-top: 0; 
       }
+
       #contact-section .contact-info-item h3 + p,
       #contact-section .contact-info-item h3 + a {
           margin-top: 2px; 
       }
+
       #contact-section .contact-info-item a { text-decoration: none; transition: color 0.3s ease; }
       #contact-section .contact-info-item a:hover { color: var(--accent-primary); }
       #contact-section .map-container {
@@ -913,6 +950,7 @@
         border: 1px solid var(--card-border);
         height: 300px; 
       }
+
       #contact-section .map-container iframe { width: 100%; height: 100%; border: none; }
        body.light-theme #contact-section .contact-info-item h3,
        body.light-theme #contact-section .contact-info-item i { color: var(--accent-primary); }
@@ -929,6 +967,7 @@
             border-top: 1px solid var(--border-color-subtle);
             font-family: "Inter", sans-serif; 
         }
+
         footer .footer-grid {
             display: grid;
             grid-template-columns: 1fr; 
@@ -936,6 +975,7 @@
             margin-bottom: 30px; 
             text-align: center; 
         }
+
         footer h4 {
             font-family: "Quantico", sans-serif;
             font-size: 1.1em; 
@@ -944,6 +984,7 @@
             position: relative;
             display: inline-block; 
         }
+
          body.light-theme footer h4 { color: #1f2937; }
         footer h4::after {
             content: '';
@@ -955,6 +996,7 @@
             height: 2px;
             background: var(--accent-primary);
         }
+
         footer ul { list-style: none; padding: 0; }
         footer ul li { margin-bottom: 8px;  }
         footer ul li a {
@@ -963,6 +1005,7 @@
             transition: color 0.3s ease, padding-left 0.3s ease;
             font-size: 0.85em; 
         }
+
          body.light-theme footer ul li a { color: #4b5563; }
         footer ul li a:hover { color: var(--accent-primary); padding-left: 5px; }
          body.light-theme footer ul li a:hover { color: var(--accent-gradient-start); }
@@ -974,6 +1017,7 @@
             font-size: 1.4em; 
             transition: color 0.3s ease, transform 0.3s ease;
         }
+
          body.light-theme footer .footer-social-links a { color: #4b5563; }
         footer .footer-social-links a:hover { color: var(--accent-primary); transform: scale(1.1); }
          body.light-theme footer .footer-social-links a:hover { color: var(--accent-gradient-start); }
@@ -983,6 +1027,7 @@
             border-top: 1px solid var(--border-color-subtle);
             font-size: 0.8em; 
         }
+
         footer .footer-bottom p { margin-bottom: 5px; }
          body.light-theme footer .footer-bottom { color: #4b5563; }
 
@@ -1221,6 +1266,17 @@
         }
          footer .footer-grid {
           grid-template-columns: repeat(4,1fr); 
+        }
+        #team .team-card-container {
+          grid-template-columns: repeat(4, 1fr); /* Exactly 4 cards per row on large screens */
+          margin-left: 170px;
+          margin-right: 170px;
+        }
+        .faculty-team-container {
+          grid-template-columns: repeat(2, 1fr) !important; /* Exactly 4 cards per row on large screens */
+          justify-items: center;
+          margin-left: 350px !important;
+          margin-right: 350px !important;
         }
       }
 
@@ -1797,12 +1853,12 @@
 
       // --- Carousel Logic (for highlights-carousel-section-v2) ---
       const eventData = [
-        { imgSrc: "./assets/Hackathon.png", altText: "Tech Conference 2024", title: "Tech Conference 2024", description: "Annual gathering of tech enthusiasts and professionals." },
-        { imgSrc: "./assets/ai workshop 2025 (1) (1) (1).png", altText: "AI Workshop", title: "AI & ML Workshop", description: "Exploring the frontiers of Artificial Intelligence." },
-        { imgSrc: "https://placehold.co/600x400/22c55e/ffffff?text=Innovation+Challenge", altText: "Innovation Challenge", title: "Innovation Challenge Finals", description: "Students presenting groundbreaking solutions." },
-        { imgSrc: "https://placehold.co/600x400/f97316/ffffff?text=Guest+Lecture", altText: "Guest Lecture", title: "Industry Expert Talk", description: "Insights from a leading tech entrepreneur." },
-        { imgSrc: "https://placehold.co/600x400/06b6d4/ffffff?text=Startup+Pitch", altText: "Startup Pitch Event", title: "Startup Pitch Competition", description: "Aspiring founders pitch their ventures." },
-        { imgSrc: "https://placehold.co/600x400/8b5cf6/ffffff?text=Networking+Meet", altText: "Networking Meet", title: "Innovators Networking Meet", description: "Connecting minds, fostering collaboration." },
+        { imgSrc: "https://i.postimg.cc/wjw4b9CD/image.png", altText: "Tech Conference 2024", title: "Workshops", description: "Interactive skill-building learning event." },
+        { imgSrc: "https://i.postimg.cc/J7qK06Gn/image.png", altText: "Hands-on Training", title: "Hands-on Training", description: "Practical learning through real tasks." },
+        { imgSrc: "https://i.postimg.cc/T15DVJrK/image.png", altText: "Conference", title: "Conference", description: "Knowledge-sharing and networking event." },
+        { imgSrc: "https://i.postimg.cc/dQCPfTtv/bg.jpg", altText: "Savishkaara", title: "Savishkaara", description: "Annual college tech innovation fest." },
+        { imgSrc: "https://i.postimg.cc/7P2m432s/image.png", altText: "Sessions", title: "Sessions", description: "Informative talks or presentations." },
+        { imgSrc: "https://i.postimg.cc/Zqjp4Rb5/image.png", altText: "Project Expo", title: "Project Expo", description: "Display of innovative student projects." },
       ];
 
       const carouselContainer = document.getElementById("carouselV2Container");
