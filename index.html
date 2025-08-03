@@ -1265,9 +1265,14 @@
         #team .team-card p { font-size: 0.9em; }
         #team h3.text-2xl { font-size: 1.8em; margin-top: 60px; margin-bottom: 30px; }
         .faculty-team-container {
-            display: flex;
-            justify-content: center; 
-            flex-wrap: wrap; 
+          display: flex;
+          justify-content: center; 
+          justify-items: center;
+          flex-wrap: wrap; 
+          grid-template-columns: repeat(2, 1fr) !important; /* Exactly 4 cards per row on large screens */
+          justify-items: center;
+          margin-left: 350px !important;
+          margin-right: 350px !important;
           }
         .about-pillars { gap: 25px; }
         .pillar-card { width: calc(50% - 12.5px); max-width: 280px; padding: 25px;} 
@@ -1311,6 +1316,12 @@
         #team .team-card { width: calc(25% - 11.25px); } /* Adjusted for 15px gap */
          #team .team-card img { width: 120px; height: 120px; }
          #team .team-card h3 { font-size: 1.4em; }
+         .faculty-team-container {
+            display: flex;
+            justify-content: center; 
+            justify-items: center;
+            flex-wrap: wrap; 
+          }
 
         .pillar-card { width: calc(25% - 18.75px); max-width: 280px;} /* Adjusted for 25px gap */
 
