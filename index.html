@@ -907,6 +907,79 @@
         line-height: 1.6;
       }
 
+
+     /* --- Upcoming event Section Specific Styles --- */
+    /* Update these styles in your <style> block */
+.event-title {
+    font-family: "Quantico", sans-serif;
+    font-size: 2.2em; /* This makes the font size bigger */
+    font-weight: 700; /* This makes the text bold */
+    color: #927004;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+    .event-description {
+      font-family: "Inter", sans-serif;
+      color: var(--text-secondary);
+      font-size: 0.9em;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .event-image-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .event-poster {
+        max-width: 250px; /* This keeps the image small */
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .event-poster:hover {
+        transform: scale(1.05);
+    }
+
+    .register-link {
+      display: inline-block;
+      padding: 12px 25px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.4s ease-in-out;
+      background: linear-gradient(
+        45deg,
+        var(--accent-gradient-start),
+        var(--accent-secondary)
+      );
+      color: #fff;
+      border: none;
+      margin-top: 25px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .register-link:hover {
+      transform: translateY(-2px) scale(1.02);
+      background: linear-gradient(
+        45deg,
+        var(--accent-secondary),
+        var(--accent-gradient-start)
+      );
+    }
+
+    /* Ensure the main section has appropriate padding */
+    #events {
+      padding-bottom: 60px; /* Adjust as needed */
+    }
+
       /* --- Contact Section Specific Styles --- */
       #contact-section .contact-grid {
         display: grid;
@@ -1689,10 +1762,22 @@
       </div>
     </section>
 
-    <section id="events" class="generic-section">
+   <section id="events" class="generic-section">
       <h2> Upcoming <span class="gradient-text">Events</span> </h2>
-      <p class="gradient-subtitle">Join Our Next Workshop or Talk</p>
-      <p> Stay tuned for our exciting lineup of workshops, guest lectures, and innovation challenges. We're constantly planning new opportunities for you to learn, network, and grow. Check back soon for updates! </p>
+      <p class="gradient-subtitle">Join Our Next Event,Workshop or Talk</p>
+      
+      <h3 class="event-title">IDEATHON 2025</h3>
+      <p >
+        Get ready to innovate! Ideathon 2025 is a platform for aspiring minds to
+        showcase their problem-solving skills and develop innovative solutions.
+        Join us to turn your ideas into reality and compete for exciting prizes.
+      </p>
+      <div class="event-image-container">
+          <img src="https://i.postimg.cc/kgq7VQYh/ideathon25.jpg" alt="Ideathon 2025 Poster" class="event-poster">
+      </div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScKFGTfU5T2AoA0b6iK0Rf4d_x7u8J9CSA2E-_g5M8Mm1tkPg/viewform?usp=header" target="_blank" class="register-link">Register Now</a>
+      
+      <!-- <p> Stay tuned for our exciting lineup of workshops, guest lectures, and innovation challenges. We're constantly planning new opportunities for you to learn, network, and grow. Check back soon for updates! </p> -->
     </section>
 
     <section id="contact-section" class="generic-section">

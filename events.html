@@ -8,7 +8,6 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:400,700&family=Quantico:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Favicon and App Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/2024/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/2024/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/2024/favicon/favicon-16x16.png">
@@ -260,6 +259,47 @@
         /* Manages visibility of whole category section including title and cards grid */
       }
       
+      /* Styles for the Modal */
+      .modal-content {
+          animation: fadeInScale 0.4s ease-out;
+      }
+
+      @keyframes fadeInScale {
+          from {
+              opacity: 0;
+              transform: scale(0.95);
+          }
+          to {
+              opacity: 1;
+              transform: scale(1);
+          }
+      }
+
+      #closeModal {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.3s ease;
+      }
+
+      #closeModal:hover {
+          background: rgba(255, 255, 255, 0.4);
+      }
+
+      .modal-body {
+          background: var(--bg-secondary);
+          border-radius: 10px;
+          padding: 20px;
+      }
+
+      #modalImage {
+          transition: transform 0.3s ease;
+      }
+
       /* Media Queries from index.html (abbreviated for brevity, include full if needed) */
       @media (max-width: 480px) {
         .events-main-title { font-size: 12vw !important; }
@@ -304,6 +344,7 @@
 
         <div class="filter-buttons-container flex flex-wrap justify-center mt-2 mb-8 gap-2 md:gap-4">
             <button class="filter-btn active-btn" data-category="all">ALL</button>
+            <button class="filter-btn" data-category="ideathon">IDEATHON</button>
             <button class="filter-btn" data-category="ss">SAVISHKAARA 2025</button>
             <button class="filter-btn" data-category="tech">SAVISHKAARA 2024</button>
             <button class="filter-btn" data-category="techxp">PROJECT EXPO</button>
@@ -313,6 +354,26 @@
         </div>
 
         <div id="eventContainer" class="relative z-10 md:px-4">
+            <div id="category-ideathon-group" class="category-display-group" style="display: none;">
+                <h3 class="category-group-title">IDEATHON</h3>
+                <div class="category-cards-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="ideathon">
+                        <img src="https://i.postimg.cc/kgq7VQYh/ideathon25.jpg" alt="Ideathon 2025" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Ideathon+2025';" loading="lazy"/>
+                        <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                            <h2 class="text-md md:text-lg font-bold mb-1">Ideathon 2025</h2>
+                            <p class="text-xs md:text-sm">Ideathon</p>
+                        </div>
+                    </div>
+                    <div class="event-card relative group overflow-hidden h-[400px]" data-category="ideathon">
+                        <img src="https://i.postimg.cc/FzQpxHLG/INSTAGRAM-POST.png" alt="Ideathon 2023" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300?text=Ideathon+2023';" loading="lazy"/>
+                        <div class="event-card-info absolute bottom-[10%] left-0 w-full h-auto min-h-[30%] p-3 md:p-4">
+                            <h2 class="text-md md:text-lg font-bold mb-1">Ideathon 2023</h2>
+                            <p class="text-xs md:text-sm">Ideathon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             
             <div id="category-ss-group" class="category-display-group" style="display: none;">
                 <h3 class="category-group-title">SAVISHKAARA 2025</h3>
@@ -764,6 +825,18 @@
             </div>
 
         </div> </section>
+    
+    <div id="eventModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm p-4">
+        <div class="modal-content relative w-full max-w-4xl max-h-[90vh] flex flex-col items-center">
+            <button id="closeModal" class="absolute top-4 right-4 text-white text-3xl font-bold p-2 leading-none z-50">&times;</button>
+            <div class="modal-body w-full flex flex-col items-center">
+                <img id="modalImage" src="" alt="Event Poster" class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-xl mb-4">
+                <div id="modalButtons" class="flex flex-col sm:flex-row gap-4">
+                    </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
       // Preloader Logic (from index.html)
       window.addEventListener("load", () => {
@@ -957,6 +1030,62 @@
         }
         displayCategory(initialCategory); 
       });
+
+    // New Event Modal Logic
+    const eventCards = document.querySelectorAll('.event-card');
+    const modal = document.getElementById('eventModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalButtonsContainer = document.getElementById('modalButtons');
+    const closeModalBtn = document.getElementById('closeModal');
+    
+    // Sample registration URL for Ideathon 2025
+    const ideathon2025RegisterLink = "https://docs.google.com/forms/d/e/1FAIpQLScKFGTfU5T2AoA0b6iK0Rf4d_x7u8J9CSA2E-_g5M8Mm1tkPg/viewform?usp=header ";
+
+    eventCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            const img = card.querySelector('img');
+            const eventTitle = card.querySelector('h2').textContent.trim();
+
+            if (img) {
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                
+                modalButtonsContainer.innerHTML = ''; // Clear previous buttons
+                //ACTIVE EVENT THE REG LINK SHOULD BE ADDED IN THIS IF STMT
+                if (eventTitle === "Ideathon 2025") {
+                    const registerBtn = document.createElement('a');
+                    registerBtn.href = ideathon2025RegisterLink;
+                    registerBtn.target = "_blank";
+                    registerBtn.className = "cta-button register-link"; // Using existing CTA style
+                    registerBtn.textContent = "Register Now";
+                    modalButtonsContainer.appendChild(registerBtn);
+                } else {
+                    const endedBtn = document.createElement('span');
+                    endedBtn.className = "cta-button bg-gray-600 cursor-not-allowed opacity-75"; // Styled as disabled
+                    endedBtn.textContent = "Event Ended";
+                    modalButtonsContainer.appendChild(endedBtn);
+                }
+
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+        });
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling
+    });
+
+    // Close modal on escape key press
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+
     </script>
   </body>
 </html>
